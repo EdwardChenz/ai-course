@@ -97,3 +97,22 @@ python "$BK_HOME/skills/book-installer/scripts/validate-chapter-mascots.py" docs
 内容采用 [CC BY-NC-SA 4.0](docs/license.md) 许可，非商业用途免费使用。
 文中出现的商标归各自所有者所有；示例中的价格、延迟、吞吐等数值均为教学示意值，
 不代表任何厂商的真实指标。
+
+## 宣传物料
+
+| 物料 | 位置 | 状态 |
+|---|---|---|
+| GitHub README | 本文件 | ✅ 已完成 |
+| LinkedIn 发布帖 | `docs/social/linkedin-post.md` | 需补 UTM 与配图 |
+| AP 风格新闻稿 | `docs/social/press-release.md` | **需作者填写 `[TK]` 占位并核定引语** |
+
+两份物料的数字均取自 `docs/learning-graph/book-metrics.json`，未做四舍五入或夸大；
+不含销量、学员数、媒体转载或读者好评等未经证实的数据。
+
+## 待作者处理
+
+1. **封面图**：`docs/img/cover.png` 仍是脚手架自带的通用占位封面，需用
+   `docs/img/cover-image-prompt.md` 的提示词生成正式封面替换。
+2. **新闻稿占位符**：数据行城市、媒体邮箱与电话、两处 `[DRAFT QUOTE]` 引语核定。
+3. **MicroSim 规格备注**：`sandbox-quota-cost-ledger` 与 `task-handoff-state-timeline`
+   各有一条备注说明规格曾存在算术歧义、已按公式口径定夺，发布前可考虑删除。

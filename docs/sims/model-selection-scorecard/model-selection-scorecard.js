@@ -177,7 +177,7 @@ function renderControls() {
       return DIMS.every(d => cur[d.k] === m.std[d.k]) && Math.abs(stdTotal(m) - totalOf(cur)) < 0.0001;
     }).length;
     h += '<div class="fb info">打分锁定完成：四个模型的加权总分与标准值一致 <b>' + consistent + ' / 4</b>。标准总分为 A 3.8、B 3.8、C ' + fmt1(stdTotal(MODELS[2])) + '、D ' + fmt1(stdTotal(MODELS[3])) + '，最高分并列者为 A 与 B，两者同时标记为“推荐”。</div>';
-    h += '<div class="muted">说明：规格 Content 表把 C 的标准总分写作 3.2，而按 Rules 给出的加权公式（C = 2 / 5 / 5 / 3）算得 ' + fmt1(stdTotal(MODELS[2])) + '；本页以公式为准，A 与 B 并列 3.8 的结论不受影响。</div>';
+
   }
 
   h += '<h2 class="stage-h">推荐结论</h2>';

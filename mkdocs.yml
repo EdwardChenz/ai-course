@@ -260,13 +260,17 @@ extra_css:
 
 # Exclude prompt scratch files and TODOs from build/search/sitemap
 exclude_docs: |
-  # BUILDING-SIMS.md 是给 AI agent 的 MicroSim 施工规范，不面向读者，故排除
+  # 以下文件是给 AI agent 与作者用的工作文档，不面向读者，故排除
+  # BUILDING-SIMS.md 是 MicroSim 施工规范；cover-image-prompt.md 是封面提示词
   **/image-prompt*.md
   **/image-prompts*.md
   **/cover-prompt.md
+  **/cover-image-prompt.md
   **/TODO.md
   img/mascot/character-sheet.md
   BUILDING-SIMS.md
+  # social/ 是宣传物料（LinkedIn 帖、新闻稿），不对读者展示
+  social/
 
 # Rebuild on changes during `mkdocs serve`
 watch:
