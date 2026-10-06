@@ -1,0 +1,55 @@
+{
+  "title": "MCP 与 A2A 分工路由决策",
+  "subject": "AI 大模型应用开发 — 跨 Agent 协议互联",
+  "creator": "EdwardChenz",
+  "description": "交互式路由决策：逐条锁定八条需求的协议路由，锁定前隐藏标准答案，提交后逐条揭晓反馈与判定依据命中情况。八条需求为合成教学用例。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Evaluate"],
+  "duration": "10-15 分钟",
+  "prerequisites": ["MCP 纵向调用", "A2A 横向委托", "框架内交接", "能力卡片", "协议选型对照"],
+  "learning_objectives": [
+    "学习者将逐条判定八个需求的协议路由，判定条件是八条全部与 Content 表一致且能对任意一条给出判定所依据的三个条件中至少两个。"
+  ],
+  "framework": "原生 HTML/CSS/JavaScript（无外部 JS 库）",
+  "canvas_dimensions": "无画布；stage 620px + controls 340px，iframe 962px",
+  "responsive": "Width-responsive（flex 换行）",
+  "dependencies": "无",
+  "accessibility": [
+    "原生 select / checkbox / text，带 aria-label",
+    "判定依据以 c1 / c2 / c3 短码显示，完整表述在判定条件面板中列出",
+    "纯键盘可达"
+  ],
+  "controls": [
+    { "type": "select", "label": "八条需求的路由", "options": 6, "default": null },
+    { "type": "checkbox", "label": "判定依据（每条需求三个条件）", "count": 24 },
+    { "type": "button", "label": "锁定八条路由并提交" },
+    { "type": "button", "label": "重来" },
+    { "type": "text", "label": "追问：序号 5 为什么不选 A2A" },
+    { "type": "button", "label": "对照标准反馈" }
+  ],
+  "model": {
+    "type": "规则判定表（六选一，无并列）",
+    "variables": ["route 路由取值", "basis 勾选的判定依据"],
+    "rules": [
+      "路由取值限定为六项：直接调用 / 内部 HTTP 适配 / 框架内交接 / MCP 向下 / A2A 向右 / A2A 加契约加审计",
+      "得分 = 判定正确的条数，满分 8 分，>= 7 分视为掌握，< 7 分需重做",
+      "判定容差为 0 条，不设部分正确；同一序号两次判定不一致时以第二次为准",
+      "任一需求勾选两条及以上判定依据视为依据充分"
+    ],
+    "assumptions": [
+      "八条需求为合成教学用例（随机种子 20261006），每条按连接对象、是否需要能力发现、是否需要契约字段三项规则生成并人工复核",
+      "序号 5 的示例取自本章“渠道 Agent 与核保 Agent”同部署的真实形态",
+      "协议开销 60 毫秒、卡片冷拉 80 毫秒、TTL 300 秒三数出自正文"
+    ],
+    "limitations": [
+      "规格只为序号 1、5、7 给出了三条判定条件的标准命中数，其余需求以各条反馈文案为准，界面不做额外推断",
+      "不模拟真实协议握手耗时与卡片拉取成本",
+      "不覆盖断线重连、幂等与版本协商等工程细节"
+    ]
+  }
+}

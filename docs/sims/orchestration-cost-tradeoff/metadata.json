@@ -1,0 +1,60 @@
+{
+  "title": "单 Agent 与多 Agent 的编排成本对比",
+  "subject": "AI 大模型应用开发 — 单 Agent 与多 Agent 的编排成本对比",
+  "creator": "EdwardChenz",
+  "description": "三个旋钮（角色数 N、每角色调用次数 C、上下文重读倍数 R）实时算出多 Agent 单任务成本，并求出使成本首次不超过 0.10 元的 R 值。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Evaluate"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "单任务成本公式",
+    "上下文重读倍数",
+    "单 Agent 基线 0.0348 元",
+    "成本上限 0.10 元"
+  ],
+  "learning_objectives": [
+    "学习者将根据三个旋钮计算多 Agent 单任务成本，并求出使成本首次不超过 0.10 元的上下文重读倍数。三题答案 0.1568 元与 4.5 倍、R = 1.0 与 0.0928 元、省 0.0640 元与 40.8% 全部命中才算掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 685",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "3  个 滑块",
+    "1  个 下拉框（题号）",
+    "3  个 按钮",
+    "2  个 数字输入框"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "T = N × C",
+      "输入 token = T × 2000 × R，输出 token = T × 300",
+      "成本 = 输入 token/1000×0.004 + 输出 token/1000×0.012（容差 ±0.0001 元）",
+      "倍数 = 成本 / 0.0348（容差 ±0.05 倍）；达标判定用 <="
+    ],
+    "assumptions": [
+      "单次调用 2,000 输入 token 与 300 输出 token 为正文设定值",
+      "输入 0.004 元、输出 0.012 元每千 token 为教学估算价（示意价）",
+      "单 Agent 基线 T = 3、R = 1.0、成本 0.0348 元；成本上限 0.10 元每任务"
+    ],
+    "limitations": [
+      "不建模角色间通信与合并成本",
+      "不区分输入与输出的缓存命中折扣",
+      "R 只作为线性乘数，不模拟压缩策略对重读份数的非线性影响"
+    ]
+  }
+}

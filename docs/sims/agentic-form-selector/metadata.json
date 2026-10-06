@@ -1,0 +1,56 @@
+{
+  "title": "Agentic 编码形态选择判定器",
+  "subject": "AI 大模型应用开发 — AI 辅助开发工作流",
+  "creator": "EdwardChenz",
+  "description": "交互式形态判定：按作用域与可验证性两把尺子，对六个开发场景判定应使用补全、代理还是重构，并为三种形态匹配完成判据，九次提交后揭晓。六个场景为示意数据。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Evaluate"],
+  "duration": "8-12 分钟",
+  "prerequisites": ["补全的作用域与完成判据", "代理的作用域与完成判据", "重构的作用域与完成判据"],
+  "learning_objectives": [
+    "学习者将根据六个场景的作用域与可验证性判定各自应使用补全、代理还是重构三种形态中的哪一种，并在给出判定后说出该形态对应的完成判据。"
+  ],
+  "framework": "原生 HTML/CSS/JavaScript（无外部 JS 库）",
+  "canvas_dimensions": "无画布；stage 440px + controls 400px，iframe 842px",
+  "responsive": "Width-responsive（flex 换行 + 表格自适应）",
+  "dependencies": "无",
+  "accessibility": [
+    "原生 select，带 aria-label",
+    "三形态对照表与逐条反馈均为纯文本，不依赖图形",
+    "判定结果同时以「正确 / 错误」文字与颜色标注",
+    "纯键盘可达"
+  ],
+  "controls": [
+    { "type": "select", "label": "六个场景的形态判定", "options": 3, "count": 6 },
+    { "type": "select", "label": "三种形态的完成判据匹配", "options": 6, "count": 3 },
+    { "type": "button", "label": "提交六条形态判定" },
+    { "type": "button", "label": "提交完成判据匹配" },
+    { "type": "button", "label": "重来" }
+  ],
+  "model": {
+    "type": "规则判定表（三选一，无并列）",
+    "variables": ["form 形态（补全 / 代理 / 重构）", "criteria 完成判据表述"],
+    "rules": [
+      "判定为三选一单选，容差 0 种，无并列",
+      "六条场景各自唯一对应一种形态，三条形态至少各用到一次（补全 2 条、代理 3 条、重构 1 条）",
+      "完成判据判定为正确表述与错误表述二选一：错误表述包括“人工看着对”、“由 Agent 自述完成”、“不需要测试”",
+      "场景 3 判定为代理时，完成判据必须写成“逐例对照测试通过”",
+      "计分满分 9 分（形态 6 + 判据 3），答对 7 分视为掌握"
+    ],
+    "assumptions": [
+      "六条形态定义与完成判据表述出自章节正文的形态表",
+      "六个场景为示意数据（按作用域为单文件内、跨文件、单文件新增、跨文件重构、全仓库改名、纯注释六类各造一条）",
+      "序号 4 的旧测试护栏条件取自形态表“重构”行的完成判据"
+    ],
+    "limitations": [
+      "规格 Evidence of Mastery 写“其中至少四条完成判据表述正确”，但同一规格的 Feedback 只给了三次完成判据匹配，故本页按三次判据全对执行并在界面上注明",
+      "不测量实际审查轮次与返工率，只做形态选择的判定",
+      "不覆盖跨仓库重构与依赖升级等更大作用域的任务"
+    ]
+  }
+}

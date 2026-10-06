@@ -1,0 +1,58 @@
+{
+  "title": "混合检索效果对比",
+  "subject": "RAG 基础 — 稀疏 / 稠密 / RRF 混合检索的 recall@20 对比",
+  "creator": "EdwardChenz",
+  "description": "交互式柱状图：BM25、纯稠密、RRF 混合三路策略在五类查询与总体均值上的 recall@20。学习者先写下三个判断并锁定，再揭晓该类最优策略与逐行反馈。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "6-9 分钟",
+  "prerequisites": ["BM25 稀疏检索", "余弦相似度稠密检索", "RRF 倒数排名融合", "recall@20"],
+  "learning_objectives": [
+    "学习者将比较 BM25、纯稠密、RRF 混合三种策略在五类查询上的 recall@20，并选出编号类查询上唯一得分最高的策略，判定条件是所选策略与该类最优一致且总均值排序正确。"
+  ],
+  "framework": "Chart.js",
+  "chart_library_version": "4.4.1",
+  "canvas_dimensions": "宽度自适应；图表区 400px + 控件区 333px",
+  "iframe_height": 735,
+  "responsive": "Width-responsive（window resize 时 chart.resize()）",
+  "dependencies": "Chart.js CDN (4.4.1)",
+  "accessibility": ["canvas role=img 与 aria-label", "下拉框 aria-label", "键盘可达控件", "最优柱用加粗描边与轴标签标注，不只依赖颜色"],
+  "controls": [
+    { "type": "select", "label": "编号精确匹配这一类，最优策略是？" },
+    { "type": "select", "label": "同义改写这一类，最优策略是？" },
+    { "type": "select", "label": "总体均值最高的是哪一路？" },
+    { "type": "button", "label": "锁定三项判断并揭晓" },
+    { "type": "button", "label": "再来一轮（第 2 次机会）" }
+  ],
+  "model": {
+    "type": "查表判定 + 固定合成数据集",
+    "variables": ["查询类型（6 类）", "检索策略（BM25 / 纯稠密 / RRF 混合）"],
+    "equations": [
+      "recall@20 = 该类命中题数 / 20",
+      "总体均值 = 五类命中题数之和 / 100（五类等权）",
+      "该类最优 = 标准值最大者；差值 >= 0.05 不算并列，差值 < 0.02 时两种选择都算对"
+    ],
+    "data": {
+      "编号精确匹配": { "BM25": 0.95, "纯稠密": 0.40, "RRF 混合": 0.90, "该类最优": "BM25" },
+      "术语精确匹配": { "BM25": 0.85, "纯稠密": 0.60, "RRF 混合": 0.90, "该类最优": "RRF 混合" },
+      "同义改写": { "BM25": 0.45, "纯稠密": 0.85, "RRF 混合": 0.90, "该类最优": "RRF 混合" },
+      "多跳聚合": { "BM25": 0.30, "纯稠密": 0.60, "RRF 混合": 0.65, "该类最优": "RRF 混合" },
+      "跨文档综合": { "BM25": 0.35, "纯稠密": 0.55, "RRF 混合": 0.65, "该类最优": "RRF 混合" },
+      "总体均值": { "BM25": 0.58, "纯稠密": 0.60, "RRF 混合": 0.80, "该类最优": "RRF 混合" }
+    },
+    "assumptions": [
+      "评测集 100 题、每类 20 题为合成数据，随机种子 20261006",
+      "BM25 的 k1 = 1.5、b = 0.75，RRF 的 k = 60（权重稠密 1.0、稀疏 0.6）取自本章正文",
+      "配色使用 Okabe-Ito 色盲友好色板；最优柱额外用深色加粗描边 + 轴标签「▲ 该类最优」标注"
+    ],
+    "limitations": [
+      "不模拟真实分词、向量化或检索执行，只展示 recall@20 的评测结果",
+      "两个次优差距均为 0.05，未触发「差值 < 0.02 两种选择都算对」的并列规则"
+    ]
+  }
+}

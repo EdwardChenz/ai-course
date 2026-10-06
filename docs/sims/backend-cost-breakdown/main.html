@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后端月度成本构成与降本空间 MicroSim</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        body { margin: 0px; padding: 0px; font-family: Arial, Helvetica, sans-serif; color: #1a1a1a; }
+        main { width: 100%; }
+        .chart-area { width: 100%; position: relative; }
+        .panel { box-sizing: border-box; width: 100%; overflow-y: auto; }
+        .status { font-size: 16px; font-weight: bold; line-height: 22px; }
+        .row { display: flex; align-items: center; height: 30px; gap: 8px; }
+        .row .lbl { flex: 0 0 400px; font-size: 16px; white-space: nowrap; }
+        .row select { font-size: 15px; min-width: 170px; height: 24px; }
+        .row input[type=number] { width: 92px; font-size: 15px; height: 24px; }
+        .row .unit { font-size: 14px; color: #444; }
+        button { font-size: 15px; padding: 3px 10px; height: 26px; }
+        table.kb { border-collapse: collapse; width: 100%; font-size: 15px; }
+        table.kb { table-layout: fixed; }
+        table.kb col.n { width: 15%; }
+        table.kb th, table.kb td { border: 1px solid #bbb; padding: 0 3px; text-align: center; height: 26px; line-height: 26px; font-size: 14px; white-space: nowrap; }
+        table.kb th { background: #e8eef6; font-weight: bold; }
+        table.kb td.name { text-align: left; padding-left: 5px; }
+        table.kb td.zero { color: #777; }
+        .note { font-size: 14px; line-height: 19px; border: 1px solid #c8c8c8; background: #f6f8fb; padding: 2px 6px; }
+        .fb { font-size: 15px; line-height: 19px; color: #1a1a1a; overflow-y: auto; }
+        .fb .ok { color: #17603a; font-weight: bold; }
+        .fb .no { color: #9c2f0d; font-weight: bold; }
+    </style>
+    <script src="backend-cost-breakdown.js"></script>
+</head>
+<body>
+    <main>
+        <div class="chart-area" id="chartArea"></div>
+        <div class="panel" id="panel"></div>
+    </main>
+    <br/>
+    <a href=".">返回文档</a>
+</body>
+</html>

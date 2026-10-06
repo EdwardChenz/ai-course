@@ -1,0 +1,59 @@
+{
+  "title": "ffmpeg 合成链故障诊断",
+  "subject": "AI 大模型应用开发 — 多模态应用开发 / ffmpeg 合成链",
+  "creator": "EdwardChenz",
+  "description": "交互式诊断流程：按归一化检查、流参数比对、时间轴核对、容器标记检查四步固定顺序，对六个合成故障案例判定成因类别与处置优先级，七次提交后统一揭晓。观测值为合成数据。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "10-15 分钟",
+  "prerequisites": ["容器与流", "视频轨与音频轨", "编码器", "帧率", "采样率", "像素宽高比", "-fps_mode cfr", "-movflags +faststart", "黑帧检测"],
+  "learning_objectives": [
+    "学习者将按四步固定顺序对六个合成故障案例判定成因类别与处置优先级，判定条件是六条判定与 Content 表的应判成因列全部一致，且优先级排序与 Content 表给定顺序相同。"
+  ],
+  "framework": "原生 HTML/CSS/JavaScript（无外部 JS 库）",
+  "canvas_dimensions": "无画布；stage 520px + controls 420px，iframe 942px",
+  "responsive": "Width-responsive（flex 换行 + 表格自适应）",
+  "dependencies": "无",
+  "accessibility": [
+    "原生 select / number input，带 aria-label",
+    "四个步骤与参数以文字 + <code> 等宽字体呈现，不依赖图形连线",
+    "判定结果同时以「正确 / 错误」文字与颜色标注",
+    "纯键盘可达"
+  ],
+  "controls": [
+    { "type": "select", "label": "六个案例的成因判定", "options": 6, "count": 6 },
+    { "type": "input", "label": "六个案例的处置优先级", "min": 1, "max": 6, "step": 1, "count": 6 },
+    { "type": "button", "label": "提交六条成因判定" },
+    { "type": "button", "label": "提交优先级排序" },
+    { "type": "button", "label": "重来" }
+  ],
+  "model": {
+    "type": "四步归因规则表（六选一，无并列）",
+    "variables": ["cause 成因类别（六项）", "priority 处置优先级 1~6"],
+    "rules": [
+      "诊断顺序固定为归一化检查 → 流参数比对 → 时间轴核对 → 容器标记检查",
+      "每个案例只归到第一个被违反的步骤，不重复归因",
+      "六条无并列，容差 0 条",
+      "处置优先级按修完能否立刻解除线上损失排：已在线上错发的内容与用户能直接看到的错位（序号 2、3）→ 内容缺失（序号 4）→ 影响观感（序号 6、1）→ 只在特定平台触发的容器标记（序号 5）",
+      "标准优先级排序为 2 → 3 → 4 → 6 → 1 → 5",
+      "计分满分 7 分（成因 6 + 排序 1）；成因全对且至少五条优先级对时算掌握"
+    ],
+    "assumptions": [
+      "六个案例的观测值为合成数据（按四步诊断顺序逐条造一个只违反其中一类的最小反例，随机种子 20261013）",
+      "180 毫秒与 640 毫秒两个偏移量取自“多模态评测方法”一节的基线列，保证跨节一致",
+      "-r 30、-fps_mode cfr、-ar 48000、-movflags +faststart、setsar=1、blackdetect 与阈值 40 毫秒、0.5 秒、0.10 出自正文参数表",
+      "可用探针只有 ffprobe -select_streams、blackdetect、ebur128 三个"
+    ],
+    "limitations": [
+      "不执行真实的 ffmpeg 命令，观测值为预先给定的合成数据",
+      "序号 4 的成因在四步里归到流参数比对（缺音轨），而非时间轴核对；界面按「第一个被违反的步骤」归类",
+      "六类成因均分为六条是为了让每类都被判到一次，不代表真实事故分布",
+      "不覆盖字幕字体缺失、色彩空间与 HDR 元数据等问题"
+    ]
+  }
+}

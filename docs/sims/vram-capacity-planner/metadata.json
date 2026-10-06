@@ -1,0 +1,62 @@
+{
+  "title": "显存与并发容量估算器",
+  "subject": "AI 大模型应用开发 — 显存与并发容量估算器",
+  "creator": "EdwardChenz",
+  "description": "四组参数（模型档位、量化精度、上下文长度、并发路数）实时读出权重、KV、开销与显存合计，再逐条判定六组配置能否装下，并选出唯一满足「并发 ≥ 16 路且装得下」的配置。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Evaluate"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "权重显存",
+    "KV Cache",
+    "每 token 每 token KV 字节数",
+    "并发路数",
+    "显存预算",
+    "算子与碎片开销"
+  ],
+  "learning_objectives": [
+    "学习者将调节四组参数，观察显存合计与预算的实时读数，并对六组配置逐条判定能否装下、选出唯一一组满足「并发 ≥ 16 路且显存不超预算」的配置。六条判定与 Content 表一致且最终选择为序号 4 时算掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 720",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "3  个 下拉框（模型 / 量化 / 上下文）",
+    "1  个 滑块（并发）",
+    "1  个 下拉框（判定项）",
+    "1 组单选",
+    "2  个 按钮"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "权重 = 参数量 × 每参数字节数（FP16 2、INT8 1、INT4 0.5）",
+      "KV 合计 = 并发 × 上下文 × 每 token KV 字节数 ÷ 1,073,741,824（按 1024 折算 GiB）",
+      "显存合计 = 权重 + KV + 开销；装得下判定为显存合计 ≤ 预算，恰好等于预算判为装得下"
+    ],
+    "assumptions": [
+      "单张 A100 80 GB、--gpu-memory-utilization 0.90、算子与碎片开销 10% 为正文设定值",
+      "每 token KV 为 7B 0.5/0.25/0.125 MB、13B 0.8/0.4 MB、70B 2.5/1.25 MB（教学口径）",
+      "70B 卡数为固定规则（FP16 四卡、INT8 / INT4 两卡），不提供调节；六条判定使用单卡预算口径 72.0 GB"
+    ],
+    "limitations": [
+      "不模拟 vLLM / PagedAttention 的实际分页与前缀复用",
+      "不计入 KV 的碎片化与量化误差",
+      "KV 只按「并发 × 上下文」乘积线性估算，不反映序列长度分布"
+    ]
+  }
+}

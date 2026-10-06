@@ -1,0 +1,62 @@
+{
+  "title": "三种隔离方案在不同规模下的成本",
+  "subject": "AI 大模型应用开发 — 后端租户隔离设计",
+  "creator": "EdwardChenz",
+  "description": "交互式成本沙盘：按三档租户规模比较共享库加 RLS、独立库与混合方案的后端月成本，并用三道题检验固定费用分摊的判断。全部价格为教学用示意价。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Evaluate"],
+  "duration": "10-15 分钟",
+  "prerequisites": ["共享库加 RLS", "独立库", "混合分档方案", "固定成本分摊", "出网计费"],
+  "learning_objectives": [
+    "学习者将按三档租户规模比较共享库加 RLS、独立库与混合方案的后端月成本，并选出可容纳的最低成本方案；判定条件是共享库在 12 租户档为 375.80 元、独立库为 1,123.80 元、混合方案在 12 租户档为 443.80 元。"
+  ],
+  "framework": "原生 HTML/CSS/JavaScript（无外部 JS 库）",
+  "canvas_dimensions": "无画布；stage 470px + controls 460px，iframe 932px",
+  "responsive": "Width-responsive（flex 换行 + 表格自适应）",
+  "dependencies": "无",
+  "accessibility": [
+    "原生 input[type=range] 带可见标签与 aria-label",
+    "相对比例用纯 CSS 条表示，数值同时以文字给出",
+    "纯键盘可达"
+  ],
+  "controls": [
+    { "type": "slider", "label": "租户数 N", "min": 1, "max": 24, "step": 1, "default": 3, "unit": "个" },
+    { "type": "slider", "label": "单租户月出网量 E", "min": 10, "max": 200, "step": 10, "default": 70, "unit": "GB" },
+    { "type": "slider", "label": "单租户月存储量 S", "min": 5, "max": 60, "step": 5, "default": 21, "unit": "GB" },
+    { "type": "select", "label": "三档固定规模的最低方案（探索，不计分）", "count": 3 },
+    { "type": "button", "label": "对照三档排序" },
+    { "type": "select", "label": "第 1 题方案" },
+    { "type": "input", "label": "第 1 题金额", "unit": "元" },
+    { "type": "select", "label": "第 2 题档位" },
+    { "type": "input", "label": "第 3 题差额", "unit": "元" },
+    { "type": "input", "label": "第 3 题倍数" },
+    { "type": "button", "label": "提交第 1 / 2 / 3 题" },
+    { "type": "button", "label": "重来" }
+  ],
+  "model": {
+    "type": "成本模型（确定性计算）",
+    "variables": ["N 租户数", "E 单租户月出网量 GB", "S 单租户月存储量 GB"],
+    "equations": [
+      "shared = 68 + N * (0.45 + E * 0.36)",
+      "dedicated = N * (68.00 + 0.45 + E * 0.36)",
+      "hybrid = 93.65 + (68/(N-1) + (N-1) * (0.45 + E * 0.36))，N <= 1 时退化为 93.65"
+    ],
+    "assumptions": [
+      "单价 68 元（组织实例）、0.0217 元每 GB·月（存储）、0.36 元每 GB（出网）取自章节正文成本口径",
+      "规格规定 E = 70 GB、S = 21 GB 时单租户固定项 0.45 元成立，E 变化时按 E × 0.36 元计",
+      "取整到 0.01 元，判定容差 ±0.01 元；倍数取两位小数",
+      "三档固定规模（1 / 3 / 12 租户）取规格 Content 对照表给定值"
+    ],
+    "limitations": [
+      "Rules 公式在 3 租户档推得共享库 144.95 元、混合方案 212.95 元，与 Content 对照表的 144.96 元、190.29 元不一致；界面在三档固定规模上以对照表为准",
+      "N = 24 时不外推独立库的实际限额",
+      "全部价格为教学用示意价，不代表任何厂商真实报价",
+      "不模拟实例规格伸缩、冷热分层与跨可用区流量"
+    ]
+  }
+}

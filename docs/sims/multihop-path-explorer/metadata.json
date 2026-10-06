@@ -1,0 +1,101 @@
+{
+  "title": "多跳推理路径演示器",
+  "subject": "GraphRAG 与混合检索架构 — 多跳推理查询",
+  "creator": "EdwardChenz",
+  "description": "交互式图谱：8 个节点、12 条有向边的示意子图。探索模式下从种子节点逐跳展开子图并查看节点定义与边属性；挑战模式下先预测跳数与结果集，提交锁定后揭晓真实路径，6 题中至少 5 题两项全对算掌握。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "10-15 分钟",
+  "prerequisites": ["跳数与路径", "子图", "关系方向", "扇出上限", "社区发现算法"],
+  "learning_objectives": [
+    "学习者将从种子节点出发点击展开 1 到 3 跳的子图，并在展开前逐题预测到达目标所需跳数与返回实体集，6 题中至少 5 题两项预测一致。"
+  ],
+  "framework": "vis-network",
+  "canvas_dimensions": "graph 380px + panel 210px + controls 84px（iframe 676px）",
+  "responsive": "Width-responsive（高度固定）",
+  "dependencies": "vis-network CDN (9.1.9)",
+  "accessibility": ["图容器带 role=img 与 aria-label 文字描述", "面板与判定区 aria-live=polite", "输入框带 aria-label", "题号芯片可键盘聚焦"],
+  "controls": [
+    { "type": "select", "label": "起点", "options": ["N1 宁德时代", "N2 比亚迪", "N3 亿纬锂能", "N4 中信证券研究所", "N5 华泰证券研究所", "N6 动力电池", "N7 产能增速", "N8 毛利率"], "default": "N1" },
+    { "type": "button", "label": "展开下一跳" },
+    { "type": "button", "label": "收回全部" },
+    { "type": "button", "label": "开始挑战" },
+    { "type": "button", "label": "适配视图" },
+    { "type": "button", "label": "＋ 放大" },
+    { "type": "button", "label": "－ 缩小" },
+    { "type": "input", "label": "预测跳数", "min": 1, "max": 3, "step": 1, "unit": "跳" },
+    { "type": "input", "label": "预测结果集", "unit": "实体名，多个用顿号分隔" },
+    { "type": "button", "label": "提交预测" },
+    { "type": "button", "label": "重预测错题" },
+    { "type": "button", "label": "显示答案" },
+    { "type": "button", "label": "重来" }
+  ],
+  "data": {
+    "provenance": "节点、边、关系类型与指标数值 35.2、28.4、41.0、32.1、19.8 来自本块上方的多跳推理查询一节的示例图谱，属合成数据（生成规则：产能增速在 25 到 45 区间取两位小数，毛利率在 15 到 35 区间取两位小数，随机种子 42）；六题的正确跳数与结果集由规则计算得出。",
+    "nodes": [
+      { "id": "N1", "name": "宁德时代", "type": "Company", "attrs": "ticker 300750" },
+      { "id": "N2", "name": "比亚迪", "type": "Company", "attrs": "ticker 002594" },
+      { "id": "N3", "name": "亿纬锂能", "type": "Company", "attrs": "ticker 300014" },
+      { "id": "N4", "name": "中信证券研究所", "type": "Org", "attrs": "kind 券商研究所" },
+      { "id": "N5", "name": "华泰证券研究所", "type": "Org", "attrs": "kind 券商研究所" },
+      { "id": "N6", "name": "动力电池", "type": "Industry", "attrs": "level 申万一级" },
+      { "id": "N7", "name": "产能增速", "type": "Metric", "attrs": "unit %" },
+      { "id": "N8", "name": "毛利率", "type": "Metric", "attrs": "unit %" }
+    ],
+    "edges": [
+      { "id": "E1", "from": "N4", "rel": "COVERS", "to": "N1", "props": "since 2023" },
+      { "id": "E2", "from": "N4", "rel": "COVERS", "to": "N2", "props": "since 2022" },
+      { "id": "E3", "from": "N5", "rel": "COVERS", "to": "N1", "props": "since 2024" },
+      { "id": "E4", "from": "N5", "rel": "COVERS", "to": "N3", "props": "since 2021" },
+      { "id": "E5", "from": "N1", "rel": "BELONGS_TO", "to": "N6", "props": "weight 0.8" },
+      { "id": "E6", "from": "N2", "rel": "BELONGS_TO", "to": "N6", "props": "weight 0.8" },
+      { "id": "E7", "from": "N3", "rel": "BELONGS_TO", "to": "N6", "props": "weight 0.8" },
+      { "id": "E8", "from": "N1", "rel": "REPORTS", "to": "N7", "props": "value 35.2，year 2025" },
+      { "id": "E9", "from": "N2", "rel": "REPORTS", "to": "N7", "props": "value 28.4，year 2025" },
+      { "id": "E10", "from": "N3", "rel": "REPORTS", "to": "N7", "props": "value 41.0，year 2025" },
+      { "id": "E11", "from": "N1", "rel": "REPORTS", "to": "N8", "props": "value 32.1，year 2025" },
+      { "id": "E12", "from": "N3", "rel": "REPORTS", "to": "N8", "props": "value 19.8，year 2025" }
+    ]
+  },
+  "chapter_anchors": {
+    "nodes": 8,
+    "edges": 12,
+    "first_hop_neighbors": 5,
+    "two_hop_cumulative_nodes": 21,
+    "three_hop_cumulative_nodes": 63,
+    "max_hops": 3,
+    "max_fanout": 50,
+    "metric_values": [35.2, 28.4, 41.0, 32.1, 19.8]
+  },
+  "model": {
+    "type": "图遍历模型（确定性 BFS + 关系语义过滤）",
+    "variables": ["起点 seed", "展开深度 depth（0-3）", "跳数 hops", "结果集 entity set"],
+    "equations": [
+      "hops = 路径上的有向边数（1 <= hops <= 3）",
+      "路径长度按有向边计数；允许在起点处反向走一条边，反向边同样计入跳数",
+      "属性过滤只作用在路径末端节点，比较用严格大于或严格小于",
+      "缺属性的节点既不满足条件也不出现在结果集里"
+    ],
+    "assumptions": [
+      "COVERS 与 REPORTS 沿箭头方向展开；BELONGS_TO 视为双向，因为行业节点是枢纽，规格块第 1、4 题的答案要求从行业节点走出来",
+      "跳数上限 3 跳、单跳扇出上限 50；超扇出按 confidence 降序截断并标记已截断（本图最大出度为 3，不触发截断）",
+      "六题的跳数与结果集直接取自规格块 Content 表，不由模拟器现场计算"
+    ],
+    "limitations": [
+      "图谱只有 8 个节点 12 条边，是章节示例图谱的示意子集，不反映真实图规模",
+      "不含社区发现算法的运行结果，也不模拟向量检索的召回",
+      "探索模式展开全部相邻节点，挑战题的正确答案由题干的关系语义与属性过滤决定，两者口径不完全一致"
+    ]
+  },
+  "misconceptions_targeted": [
+    "同行业的两家公司可以从一家直接跳到另一家，中间不需要经过行业节点（第 1 题）",
+    "遍历关系时箭头方向不影响结果（第 2、6 题）",
+    "属性过滤可以在路径开始前一次性完成，不必等到末端（第 3、5 题）",
+    "把缺数据当成 0 处理（第 5 题：比亚迪没有指向毛利率的边）"
+  ]
+}

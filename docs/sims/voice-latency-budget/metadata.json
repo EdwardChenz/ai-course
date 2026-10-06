@@ -1,0 +1,74 @@
+{
+  "title": "语音端到端延迟预算分配",
+  "subject": "多模态应用开发 — Realtime 语音首音频延迟预算与 VAD 取舍",
+  "creator": "EdwardChenz",
+  "description": "交互式堆叠条形图：调节首音频延迟的五段预算并观察总延迟的实时变化，算出默认合计与余量、只压 VAD 到下限后的合计与节省量、三步联合优化后的合计与余量，并看到 VAD 阈值与打断误触发率的联动。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "7-10 分钟",
+  "prerequisites": ["首音频延迟", "VAD 静音判定", "ASR 识别尾包", "模型首 token", "TTS 首包", "串行分段求和", "余量占比"],
+  "learning_objectives": [
+    "学习者将调节首音频延迟五段预算的取值并观察总延迟的实时变化，在三道挑战题中分别算出默认合计与余量、只压 VAD 到下限后的合计与节省量、三步联合优化后的合计与余量。"
+  ],
+  "framework": "Chart.js",
+  "chart_library_version": "4.4.1",
+  "canvas_dimensions": "宽度自适应；图表区 400px + 控件区 497px",
+  "iframe_height": 899,
+  "responsive": "Width-responsive（window resize 时 chart.resize()）",
+  "dependencies": "Chart.js CDN (4.4.1)",
+  "accessibility": ["canvas role=img 与 aria-label", "滑块与输入框 aria-label", "键盘可达控件", "超出门禁用文字“超出额度”加红色标注，不只靠颜色；余量柱用浅色并带文字标签"],
+  "controls": [
+    { "type": "slider", "label": "VAD 静音判定", "min": 200, "max": 900, "step": 20, "default": 500, "unit": "毫秒" },
+    { "type": "slider", "label": "ASR 识别尾包", "min": 80, "max": 600, "step": 10, "default": 220, "unit": "毫秒" },
+    { "type": "slider", "label": "模型首 token", "min": 120, "max": 900, "step": 10, "default": 340, "unit": "毫秒" },
+    { "type": "slider", "label": "TTS 首包", "min": 60, "max": 500, "step": 10, "default": 180, "unit": "毫秒" },
+    { "type": "slider", "label": "传输与编码", "min": 20, "max": 200, "step": 10, "default": 60, "unit": "毫秒" },
+    { "type": "input", "label": "Q1 默认合计", "unit": "毫秒", "tolerance": 0 },
+    { "type": "input", "label": "Q1 与门禁的余量", "unit": "毫秒", "tolerance": 0 },
+    { "type": "input", "label": "Q1 余量占比", "unit": "%", "tolerance": 0.1 },
+    { "type": "input", "label": "Q2 只压 VAD 到 200 毫秒后的合计", "unit": "毫秒", "tolerance": 0 },
+    { "type": "input", "label": "Q2 相对默认节省", "unit": "毫秒", "tolerance": 0 },
+    { "type": "input", "label": "Q3 三步联合优化后的合计", "unit": "毫秒", "tolerance": 0 },
+    { "type": "input", "label": "Q3 余量", "unit": "毫秒", "tolerance": 0 },
+    { "type": "input", "label": "Q3 比第 2 题多省（可为负）", "unit": "毫秒", "tolerance": 0 },
+    { "type": "button", "label": "检查答案" },
+    { "type": "button", "label": "恢复默认并重来" }
+  ],
+  "model": {
+    "type": "算术判定（确定性计算）",
+    "variables": ["五段预算当前值", "门禁 1,500 毫秒", "VAD 静音判定阈值"],
+    "equations": [
+      "首音频延迟 = 五段当前值之和（五段严格串行，不存在并行重叠）",
+      "余量 = 1,500 − 合计，负值显示为超出额度并标红",
+      "余量占比 =（1,500 − 合计）÷ 1,500 × 100%，保留一位小数",
+      "门禁判定：合计 ≤ 1,500 毫秒为通过，等于 1,500 毫秒按通过计",
+      "打断误触发率 = VAD ≥ 300 毫秒时 3.5%；低于 300 毫秒时按每降 50 毫秒抬升 3.85 个百分点（VAD = 200 毫秒时恰为 11.2%）"
+    ],
+    "data": {
+      "五段默认值": { "VAD 静音判定": 500, "ASR 识别尾包": 220, "模型首 token": 340, "TTS 首包": 180, "传输与编码": 60, "合计": 1300 },
+      "门禁": 1500,
+      "默认余量": 200,
+      "默认余量占比": "13.3%",
+      "实测P95": 1680,
+      "只压VAD到200": { "合计": 1000, "节省": 300 },
+      "三步联合优化": { "目标值": { "VAD": 300, "ASR": 180, "TTS": 140 }, "合计": 1020, "余量": 480, "余量占比": "32.0%", "P95": 1420, "比只压VAD少省": 20 },
+      "打断误触发率": { "VAD不低于300": "3.5%", "VAD等于200": "11.2%" }
+    },
+    "assumptions": [
+      "五段默认值与合计 1,300 毫秒出自本章「Realtime语音架构」的链路表与「语音延迟优化」的算例",
+      "三步目标值 300 / 180 / 140 毫秒出自「语音延迟优化」一节的三步优化表",
+      "可压下限 200 / 80 / 120 / 60 / 20 与各段步长为教学设定，构成合成数据集，随机种子 20261013",
+      "打断误触发率的生成斜率取 3.85 个百分点 / 50 毫秒，使 VAD = 200 毫秒时恰为规格块给出的 11.2%"
+    ],
+    "limitations": [
+      "五段严格串行，不建模任何可并行重叠",
+      "挑战题答案按规格块给定的目标值计算，与滑块当前值无关",
+      "不建模网络抖动，只用 P95 读数提示默认余量偏薄"
+    ]
+  }
+}

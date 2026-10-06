@@ -1,0 +1,57 @@
+{
+  "title": "工具描述质量与选对率",
+  "subject": "AI 大模型应用开发 — 工具描述质量与选对率",
+  "creator": "EdwardChenz",
+  "description": "同一个 query_order 工具的六个 description 版本，按时机、边界、参数格式与长度四项权重打分，与 120 道评测题的实测选对率对照，再完成四道判断题。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Analyze"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "工具 Schema 设计",
+    "description 四项标准",
+    "JSON Schema 的 pattern 与 additionalProperties"
+  ],
+  "learning_objectives": [
+    "学习者将按四项权重为六个描述版本打分并与选对率对照，三道判断题标准值（最高选对率版本 E、质量分高于 D 但选对率低于 D 的版本 F、选对率低于 0.85 的版本共 4 个）全部答对，且能算出 F 的质量分 0.85。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 715",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "1  个 下拉框（题号）",
+    "1 组单选或 1  个 数字输入框（答案）",
+    "3  个 按钮"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "Q = 0.30·w时机 + 0.30·w边界 + 0.25·w参数 + 0.15·w长度",
+      "长度项：80 到 200 字记 1，小于 80 字记 0.5，大于 200 字记 0",
+      "判定容差 ±0.01；选对率 ≥ 0.90 视为达标，只有一个版本达标"
+    ],
+    "assumptions": [
+      "六个版本的字数与四项勾选状态为合成数据，随机种子 20261006",
+      "选对率 0.55 到 0.91 为按「每补齐一项标准各升约 0.07 到 0.11、超过 200 字后回落约 0.08」的规则生成",
+      "评测集 120 道（正例 / 负例 / 干扰各 40 道）"
+    ],
+    "limitations": [
+      "质量分只按四项机械加权，不反映措辞质量与歧义",
+      "选对率为合成数据，不重跑评测",
+      "不模拟模型对「无关文本」的注意力衰减，只用长度项近似"
+    ]
+  }
+}

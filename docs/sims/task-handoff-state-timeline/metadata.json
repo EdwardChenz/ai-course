@@ -1,0 +1,98 @@
+{
+  "title": "跨 Agent 任务交接状态同步",
+  "subject": "跨 Agent 协议互联 — 任务状态同步与能力卡片",
+  "creator": "EdwardChenz",
+  "description": "交互式时间线：追踪一次理赔委托 task-7f3c1a92 的十二条状态事件，按七态状态机的序号规则判定哪一条是必须丢弃的回退（序号 6），算出接受该回退后的重复扣费（3.0 分），并通过调节 deadline_ms 阈值观察首次 completed 在哪个阈值下被判超时。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "8-12 分钟",
+  "prerequisites": ["七态状态机", "幂等键 idempotency_key", "deadline_ms", "按次计价", "能力卡片 P95"],
+  "learning_objectives": [
+    "学习者将追踪一次理赔委托 task-7f3c1a92 的十二条状态事件，判定哪一条是必须丢弃的状态回退，并算出接受该回退后重复扣费金额；判定条件是所选序号为 6 且重复扣费为 3.0 分（2 次乘以 1.5 分）。"
+  ],
+  "framework": "vis-timeline",
+  "canvas_dimensions": "timeline 210px + ledger 84px + events 234px + feedback 112px + controls 120px（iframe 762px）",
+  "responsive": "Width-responsive（高度固定）",
+  "dependencies": "vis-timeline CDN (7.7.3, standalone/umd/vis-timeline-graph2d.min.js，该包内没有 vis-timeline.min.js 这个文件名)",
+  "accessibility": ["时间轴容器带 role=img 与 aria-label 文字描述", "十二行事件表是时间轴的等价文字版", "账本与判定区 aria-live=polite", "输入框带 aria-label"],
+  "controls": [
+    { "type": "slider", "label": "超时阈值 deadline_ms", "min": 500, "max": 5000, "step": 100, "default": 2000, "unit": "毫秒" },
+    { "type": "button", "label": "聚焦回退" },
+    { "type": "button", "label": "显示全部" },
+    { "type": "button", "label": "＋ 放大" },
+    { "type": "button", "label": "－ 缩小" },
+    { "type": "input", "label": "第1题 必须丢弃的回退序号", "min": 1, "max": 12, "step": 1, "unit": "序号" },
+    { "type": "input", "label": "第2题 重复扣费金额", "min": 0, "max": 10, "step": 0.1, "unit": "分" },
+    { "type": "select", "label": "第3题 延迟到达是否判超时", "options": ["不应判超时", "应判超时"] },
+    { "type": "button", "label": "提交判定" },
+    { "type": "button", "label": "重做本轮" },
+    { "type": "button", "label": "显示答案" },
+    { "type": "button", "label": "重来" }
+  ],
+  "data": {
+    "provenance": "十二条事件的时刻与序号为合成数据（随机种子 20261006），生成规则：accepted 在 12 毫秒、running 在 140 与 310 毫秒、首次 completed 在 780 毫秒；回退与幂等重复事件按通道乱序补发规则生成，序号 6 至 12 共七条。780 毫秒的首次完成时刻出自能力卡片设计（SLA P95 800 毫秒）与任务状态同步一节的 P95 2.4 秒口径；1.5 分按次计价、deadline_ms 2000 均出自能力卡片设计与任务委托协议两节。",
+    "events": [
+      { "no": 1, "t": 0, "name": "created", "state_after": "created", "should_execute": "是" },
+      { "no": 2, "t": 12, "name": "accepted", "state_after": "accepted", "should_execute": "是" },
+      { "no": 3, "t": 140, "name": "running", "state_after": "running", "should_execute": "是" },
+      { "no": 4, "t": 310, "name": "running", "state_after": "running", "should_execute": "是" },
+      { "no": 5, "t": 780, "name": "completed", "state_after": "completed", "should_execute": "是" },
+      { "no": 6, "t": 905, "name": "running", "state_after": "回退至 running", "should_execute": "否，必须丢弃" },
+      { "no": 7, "t": 980, "name": "completed", "state_after": "保持 completed", "should_execute": "幂等重复，不重执行" },
+      { "no": 8, "t": 1035, "name": "running", "state_after": "回退至 running", "should_execute": "否，必须丢弃" },
+      { "no": 9, "t": 1120, "name": "completed", "state_after": "保持 completed", "should_execute": "幂等重复，不重执行" },
+      { "no": 10, "t": 5200, "name": "running", "state_after": "回退至 running", "should_execute": "否，必须丢弃" },
+      { "no": 11, "t": 5400, "name": "completed", "state_after": "保持 completed", "should_execute": "幂等重复，不重执行" },
+      { "no": 12, "t": 5490, "name": "completed", "state_after": "保持 completed", "should_execute": "幂等重复，不重执行" }
+    ]
+  },
+  "chapter_anchors": {
+    "idempotency_key": "CL-20261006-0031:risk-score",
+    "deadline_ms": 2000,
+    "first_completed_ms": 780,
+    "card_p95_ms": 800,
+    "discarded_rollback_index": 6,
+    "duplicate_charge_fen": 3.0,
+    "timeout_threshold_range": [500, 5000],
+    "timeout_threshold_step": 100
+  },
+  "model": {
+    "type": "状态机模型（确定性规则推演）",
+    "variables": ["事件序号 no", "到达时刻 t", "超时阈值 T", "当前状态序号"],
+    "equations": [
+      "rank(created) 1 < rank(accepted) 2 < rank(running) 3 < rank(completed) 4",
+      "当前状态序号 > 事件状态序号 → 判回退，必须丢弃并记审计日志",
+      "事件状态序号 = 当前状态序号 → 判幂等重复，返回首次结果且不执行",
+      "超时判定：t >= T 且（非终态）→ 判超时",
+      "重复扣费 = 被接受的回退次数 × 1.5 分，保留一位小数"
+    ],
+    "assumptions": [
+      "回退次数上限 3 次，源于一次委托最多重试一次与通道补发两次",
+      "序号 6 的来源是编排侧重试时复用了同一个 task_id，通道缓冲把旧事件补发出来",
+      "回退次数为 0 时扣费为 0.0 分",
+      "三道挑战题的标准答案（序号 6、重复扣费 3.0 分、不应判超时）直接取自规格块，不由模拟器现场推算"
+    ],
+    "limitations": [
+      "不模拟通道的实际乱序与重投，只按规格块给出的十二条固定事件推演",
+      "核保规则只按按次计价折算，不建模模型调用的真实成本",
+      "延迟到达的观测时刻不改变任务已完成这一事实，模拟器不追踪上游执行器的真实进度"
+    ]
+  },
+  "misconceptions_targeted": [
+    "状态事件按到达顺序处理即可，重复事件无害（第 1 题）",
+    "回退事件无害，因为对方的实现不会故意回退（第 1 题）",
+    "委托超时后重试不会产生额外费用（第 2 题）"
+  ],
+  "scoring": {
+    "items": 3,
+    "points_per_item": 1,
+    "mastery_threshold": 2,
+    "attempts_per_item": 2,
+    "tolerances": { "index": 0, "amount_fen": 0.05 }
+  }
+}

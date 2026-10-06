@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic 编码形态选择判定器 MicroSim</title>
+    <link rel="icon" href="data:,">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; padding: 0; background: #ffffff; color: #111;
+            font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 1.45;
+        }
+        main { display: block; width: 100%; }
+        .stage {
+            background: aliceblue; border: 1px solid silver;
+            height: 440px; padding: 8px 12px; overflow: auto;
+        }
+        .controls {
+            background: #ffffff; border: 1px solid silver;
+            height: 400px; padding: 8px 12px; overflow: auto;
+        }
+        h1.sim-title { font-size: 24px; margin: 0 0 4px 0; text-align: center; }
+        h2.stage-h { font-size: 17px; margin: 8px 0 4px 0; }
+        table { border-collapse: collapse; width: 100%; font-size: 15px; }
+        th, td { border: 1px solid silver; padding: 3px 6px; text-align: left; vertical-align: top; }
+        th { background: #eef2f7; }
+        tr.hl { background: #fff3cd; }
+        tr.pass { background: #eaf7ea; }
+        tr.block { background: #fdecea; }
+        .card { background: #fff; border: 1px solid silver; border-radius: 4px; padding: 6px 8px; }
+        .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 8px; }
+        .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+        label.ctl { display: inline-flex; gap: 4px; align-items: center; font-size: 15px; }
+        select, input[type="number"], input[type="text"] {
+            font-size: 15px; padding: 2px 4px; border: 1px solid #888;
+            border-radius: 3px; background: #fff;
+        }
+        button {
+            font-size: 16px; padding: 4px 12px; border: 1px solid #888;
+            border-radius: 4px; background: #f2f2f2; cursor: pointer;
+        }
+        button:disabled { background: #e0e0e0; color: #999; cursor: not-allowed; }
+        .muted { color: #555; font-size: 15px; }
+        .fb { padding: 6px 8px; margin: 6px 0; border-left: 4px solid #999; background: #f6f6f6; }
+        .fb.ok { border-left-color: #2e7d32; background: #eaf7ea; }
+        .fb.no { border-left-color: #c62828; background: #fdecea; }
+        .fb.info { border-left-color: #1565c0; background: #eaf2fb; }
+        .tag { display: inline-block; padding: 1px 6px; border-radius: 10px; font-size: 14px; border: 1px solid #888; background: #fff; }
+        .tag-ok { border-color: #2e7d32; background: #eaf7ea; }
+        .tag-no { border-color: #c62828; background: #fdecea; }
+        .req { background: #fff; border: 1px solid silver; border-radius: 4px; padding: 5px 8px; margin-bottom: 5px; }
+        .req.ok { border-color: #2e7d32; }
+        .req.no { border-color: #c62828; }
+        code { font-family: Consolas, "Courier New", monospace; background: #eef2f7; padding: 0 3px; border-radius: 3px; }
+        .nowrap { white-space: nowrap; }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="stage" id="stage"></section>
+        <section class="controls" id="controls"></section>
+    </main>
+    <script src="agentic-form-selector.js"></script>
+</body>
+</html>

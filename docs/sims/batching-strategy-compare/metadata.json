@@ -1,0 +1,71 @@
+{
+  "title": "静态批处理与连续批处理的吞吐延迟对比",
+  "subject": "推理服务与部署交付 — 批处理策略、算力利用率与 KV 显存",
+  "creator": "EdwardChenz",
+  "description": "交互式双柱状图：调节批并发上限、平均输出长度与最长输出长度，观察静态批处理与连续批处理的吞吐（QPS）与 P50 延迟（秒）实时变化，并算出静态批耗时、连续批吞吐、算力利用率与并发翻倍的 KV 显存代价。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "8-12 分钟",
+  "prerequisites": ["批处理", "静态批处理", "连续批处理", "批并发上限", "输出长度分布", "算力利用率", "单序列解码速度 80 token/s"],
+  "learning_objectives": [
+    "学习者将调节批并发上限、平均输出长度与最长输出长度三个取值，观察静态批处理与连续批处理的吞吐与 P50 延迟的实时变化，并在四道挑战题中分别算出静态批耗时与吞吐、连续批吞吐与 P50、算力利用率、以及吞吐提升的显存代价。"
+  ],
+  "framework": "Chart.js",
+  "chart_library_version": "4.4.1",
+  "canvas_dimensions": "宽度自适应；图表区 400px（左吞吐 / 右 P50 两个面板）+ 控件区 605px",
+  "iframe_height": 1007,
+  "responsive": "Width-responsive（window resize 时两个 chart.resize()）",
+  "dependencies": "Chart.js CDN (4.4.1)",
+  "accessibility": ["两个 canvas role=img 与 aria-label", "滑块与输入框 aria-label", "键盘可达控件", "两种策略用深蓝 / 深橙加各自的横轴标签双重区分，不只靠颜色"],
+  "controls": [
+    { "type": "slider", "label": "批并发上限", "min": 16, "max": 64, "step": 16, "default": 32, "unit": "条" },
+    { "type": "slider", "label": "平均输出长度", "min": 160, "max": 640, "step": 160, "default": 320, "unit": "token" },
+    { "type": "slider", "label": "最长输出长度", "min": 1000, "max": 4000, "step": 500, "default": 2000, "unit": "token" },
+    { "type": "input", "label": "Q1 静态批耗时", "unit": "秒", "tolerance": 0.1 },
+    { "type": "input", "label": "Q1 静态吞吐", "unit": "QPS", "tolerance": 0.01 },
+    { "type": "input", "label": "Q2 连续批吞吐", "unit": "QPS", "tolerance": 0.01 },
+    { "type": "input", "label": "Q2 连续批 P50 延迟", "unit": "秒", "tolerance": 0.1 },
+    { "type": "input", "label": "Q3 静态算力利用率", "unit": "%", "tolerance": 0 },
+    { "type": "input", "label": "Q3 连续批算力利用率", "unit": "%", "tolerance": 0 },
+    { "type": "input", "label": "Q4 批并发上限 64 时的静态吞吐", "unit": "QPS", "tolerance": 0.01 },
+    { "type": "input", "label": "Q4 KV 显存", "unit": "GB", "tolerance": 0.1 },
+    { "type": "select", "label": "Q4 结论是否可行" },
+    { "type": "button", "label": "检查答案" },
+    { "type": "button", "label": "恢复默认并重来" }
+  ],
+  "model": {
+    "type": "算术判定（确定性计算）",
+    "variables": ["批并发上限（16–64，步长 16，默认 32 条）", "平均输出长度（160–640，步长 160，默认 320 token）", "最长输出长度（1,000–4,000，步长 500，默认 2,000 token）"],
+    "equations": [
+      "静态批耗时 = 最长输出 ÷ 80，单位秒，保留一位小数",
+      "静态吞吐 = 批并发上限 ÷ 静态批耗时，单位 QPS，保留两位小数",
+      "连续批吞吐 = 静态吞吐 × 3.0，保留两位小数",
+      "静态 P50 延迟 = 静态批耗时",
+      "连续 P50 延迟 = 平均输出 ÷ 80 + 调度周期（0.05 秒）后按 0.1 秒向上取整到 0.2 秒的整数倍",
+      "静态算力利用率 = 平均输出 ÷ 最长输出 × 100%，保留整数百分比",
+      "连续算力利用率固定 89%（本章教学口径）",
+      "KV 显存 = 批并发上限 × 4,096 × 0.5 MB ÷ 1,024，换算为 GB，保留一位小数"
+    ],
+    "data": {
+      "默认口径": { "静态批耗时": "25.0 秒", "静态吞吐": "1.28 QPS", "连续批吞吐": "3.84 QPS", "连续P50": "4.2 秒", "静态利用率": "16%", "连续利用率": "89%", "KV显存": "64.0 GB" },
+      "批并发上限提到64": { "静态批耗时": "25.0 秒", "静态吞吐": "2.56 QPS", "KV显存": "128.0 GB", "权重": "14 GB", "显存预算": "72 GB", "结论": "不可行（OOM）" },
+      "吞吐提升倍数": 3.0,
+      "P50下降": "83.2%"
+    },
+    "assumptions": [
+      "批并发上限 32、平均输出 320 token、最长输出 2,000 token、单序列解码 80 token/s、调度周期 50 毫秒出自本章「连续批处理原理」一节",
+      "连续批处理相对静态的 3.0 倍吞吐系数与 89% 利用率为本章教学设定，构成合成数据集，随机种子 20261401",
+      "KV 每 token 0.5 MB 与 4,096 上下文出自本章「显存估算方法」的 7B 参数表（层数 32、模型维度 4,096、FP16 两字节）"
+    ],
+    "limitations": [
+      "第 4 题的标准值按 Rules 的公式静态吞吐 = 批并发上限 ÷ 批耗时 取 2.56 QPS；规格块的 Content 标准答案列曾写为 1.42 QPS，与 Rules、答错提示、反馈文案与 Chapter Anchors 冲突，本实现以 Rules 公式为准（2.56 QPS）",
+      "不建模 KV 缓存复用率、抢占与降级策略，也不建模多卡张量并行",
+      "挑战题的答案一律按默认取值口径计算，与滑块当前值无关"
+    ]
+  }
+}

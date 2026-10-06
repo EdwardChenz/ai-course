@@ -1,0 +1,54 @@
+{
+  "title": "模型选型评分卡",
+  "subject": "AI 大模型应用开发 — 模型选型与评估",
+  "creator": "EdwardChenz",
+  "description": "交互式评分卡：按任务实测效果、成本、延迟、工程约束四项维度为四个候选模型加权打分，锁定后揭晓标准总分与推荐结论。分数为教学用示意值，不代表任何厂商真实数据。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Evaluate"],
+  "duration": "8-12 分钟",
+  "prerequisites": ["评估集", "成本与用量监控", "TTFT"],
+  "learning_objectives": [
+    "学习者将按四项维度（任务实测效果、成本、TTFT P95、工程约束）为四个候选模型加权打分，并选出总分最高者。"
+  ],
+  "framework": "原生 HTML/CSS/JavaScript（无外部 JS 库）",
+  "canvas_dimensions": "无画布；stage 470px + controls 450px，iframe 922px",
+  "responsive": "Width-responsive（CSS grid + flex）",
+  "dependencies": "无",
+  "accessibility": [
+    "全部控件为原生 select / input，带 aria-label",
+    "仅使用键盘即可完成打分与提交",
+    "结论通过单选按钮提交，读屏可读"
+  ],
+  "controls": [
+    { "type": "select", "label": "四个模型 × 四个维度评分", "min": 0, "max": 5, "step": 1, "default": null, "unit": "分" },
+    { "type": "button", "label": "锁定打分并提交" },
+    { "type": "radio", "label": "推荐结论（五选一，含“按场景分工”）" },
+    { "type": "button", "label": "提交推荐结论" },
+    { "type": "button", "label": "对照分工结论" },
+    { "type": "select", "label": "追问：贡献最大的两个维度", "unit": "维度" },
+    { "type": "button", "label": "重来" }
+  ],
+  "model": {
+    "type": "加权评分模型（确定性计算）",
+    "variables": ["eff 任务实测效果 0~5", "cost 成本 0~5", "lat 延迟 0~5", "eng 工程约束 0~5"],
+    "equations": [
+      "total = 0.4*eff + 0.2*cost + 0.2*lat + 0.2*eng",
+      "total 按 1 位小数显示"
+    ],
+    "assumptions": [
+      "四个维度的权重固定为 0.4 / 0.2 / 0.2 / 0.2",
+      "各维度取 0~5 整数，5 分最好",
+      "标准总分与反馈原因取自章节正文“模型选型对照表”"
+    ],
+    "limitations": [
+      "规格 Content 表把 C 的标准总分写作 3.2，按 Rules 的加权公式（C = 2/5/5/3）算得 3.4；本页以公式为准",
+      "不建模权重敏感性，未展示权重变化对排序的影响",
+      "分数为教学用示意值，不代表任何厂商真实评测数据"
+    ]
+  }
+}

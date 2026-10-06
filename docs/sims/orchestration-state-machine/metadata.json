@@ -1,0 +1,49 @@
+{
+  "title": "任务编排状态机演示",
+  "subject": "AI 大模型应用开发 — 多智能体编排与任务状态机",
+  "creator": "EdwardChenz",
+  "description": "交互式状态机推演器：学习者先预测 12 步事件序列跑完后的终态与两条非法转移，锁定后逐条验证，最后揭晓它们的共性——都跳过了执行环节。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "6-10 分钟",
+  "prerequisites": ["任务状态机的五个状态与 11 条合法转移", "重试上限 3 次"],
+  "learning_objectives": [
+    "学习者将根据给定的 12 条事件序列逐步推演任务状态，并预测第 12 步后的终态，同时指出全部非法转移的序号；终态判定为已失败、非法转移序号为 2 与 12，两项都答对才算掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "900x460",
+  "responsive": "Width-responsive",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": ["describe() 屏幕阅读器描述", "输入框 aria-label", "键盘可达控件"],
+  "controls": [
+    { "type": "button", "label": "锁定我的预测" },
+    { "type": "button", "label": "检查答案" },
+    { "type": "button", "label": "重来" },
+    { "type": "input", "label": "预测终态", "unit": "状态名" },
+    { "type": "input", "label": "预测非法转移序号（逗号分隔）", "unit": "序号" }
+  ],
+  "model": {
+    "type": "有限状态机（确定性推演）",
+    "variables": ["当前状态", "重试计数", "事件序号"],
+    "states": ["pending 待执行", "running 执行中", "blocked 阻塞待人", "done 已完成", "failed 已失败"],
+    "legal_transitions": 11,
+    "equations": [
+      "合法转移集合：pending→{running,blocked,failed}；running→{running,done,blocked,failed}；blocked→{running,failed}；failed→{pending}；done→{running}",
+      "MAX_RETRY = 3"
+    ],
+    "assumptions": [
+      "12 条事件序列为合成数据，生成种子 20261006",
+      "终态唯一，第 12 步之后为已失败",
+      "非法转移判定阈值：转移目标不在该状态的合法转移集合内"
+    ],
+    "limitations": [
+      "done→running（审稿人打回）只属于审稿人模式，其他模式应关掉这条边",
+      "本演示不含并发与租约冲突的实际处理"
+    ]
+  }
+}

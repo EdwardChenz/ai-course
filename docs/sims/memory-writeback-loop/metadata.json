@@ -1,0 +1,57 @@
+{
+  "title": "记忆写入与回填闭环",
+  "subject": "AI 大模型应用开发 — 记忆层与执行沙箱",
+  "creator": "EdwardChenz",
+  "description": "交互式闭环演示：按证据校验、稳定性判定、落点路由、显式覆盖四个固定阶段走一遍四条候选事实，并用四道题检验丢弃、写入、覆盖与画像边界判定。四条候选事实为合成数据。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Analyze"],
+  "duration": "8-12 分钟",
+  "prerequisites": ["长期记忆抽取的证据校验规则", "显式覆盖", "用户画像的字段合并"],
+  "learning_objectives": [
+    "学习者将把一段 12 轮会话按证据校验 → 稳定性判定 → 落点路由 → 显式覆盖走一遍，并回答四个判定：哪条候选被丢弃、几条候选写入长期记忆、哪两个画像字段被覆盖更新、序号 4 为何不进画像。"
+  ],
+  "framework": "原生 HTML/CSS/JavaScript（无外部 JS 库）",
+  "canvas_dimensions": "无画布；stage 500px + controls 420px，iframe 922px",
+  "responsive": "Width-responsive（flex 换行 + 表格自适应）",
+  "dependencies": "无",
+  "accessibility": [
+    "原生 range / select / number / checkbox，字段名以 <code> 等宽字体呈现",
+    "落点结果同时用颜色（绿/红行）与文字标注，不单独依赖颜色",
+    "纯键盘可达"
+  ],
+  "controls": [
+    { "type": "slider", "label": "置信度阈值", "min": 0.50, "max": 0.95, "step": 0.05, "default": 0.60 },
+    { "type": "select", "label": "第 1 题被丢弃的候选", "options": 5 },
+    { "type": "input", "label": "第 2 题写入条数", "unit": "条", "min": 0, "max": 4 },
+    { "type": "checkbox", "label": "第 3 题被覆盖更新的画像字段", "count": 4 },
+    { "type": "select", "label": "第 4 题序号 4 不进画像的原因", "options": 4 },
+    { "type": "button", "label": "提交第 1 / 2 / 3 / 4 题" },
+    { "type": "button", "label": "重来" }
+  ],
+  "model": {
+    "type": "规则判定流程（四阶段，顺序固定）",
+    "variables": ["stability 稳定性", "confidence 置信度", "profile_field 目标画像字段", "threshold 置信度阈值"],
+    "rules": [
+      "丢弃条件为 stability == volatile 且 confidence < threshold，两条同时成立才丢弃",
+      "写入长期记忆的条数 = 总候选数 − 丢弃条数",
+      "只有 dept 与 output_style 在 18 个画像字段内，覆盖时旧值进 _superseded 留痕",
+      "account_scopes 不属于 18 个画像字段，从工具侧校验读取，不进画像",
+      "计数判定容差 ±0 条；置信度完全相等时按抽取顺序先出现者优先"
+    ],
+    "assumptions": [
+      "四条候选事实为合成数据（取稳定事实、明确偏好、一次性情绪、业务归属四种模板各一条，随机种子 20261006）",
+      "12 轮会话、4 条候选、3 条留存的口径来自章节正文",
+      "18 个画像字段与 dept、output_style 两个字段名出自“用户画像记忆”一节"
+    ],
+    "limitations": [
+      "只演示一轮抽取，不模拟多轮回填后的冲突与去重",
+      "不建模画像字段的 TTL 与衰减",
+      "阈值调到 0.50 及以下时第 1、2 题标准答案随阈值重算"
+    ]
+  }
+}

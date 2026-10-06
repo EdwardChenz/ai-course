@@ -1,0 +1,59 @@
+{
+  "title": "召回条数与上下文预算的权衡",
+  "subject": "AI 大模型应用开发 — 召回条数与上下文预算的权衡",
+  "creator": "EdwardChenz",
+  "description": "拖动召回条数 K 与送模型条数 M，实时读出 recall@K 曲线、命中率与单次上下文成本，再用三道手写挑战题检验「加大 K 到底值不值」这笔账。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Evaluate"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "召回率 recall@K",
+    "重排后送模型条数 M",
+    "块大小 400 token",
+    "输入价格口径"
+  ],
+  "learning_objectives": [
+    "学习者将根据正确块名次分布计算 recall@K，并在「送模型条数 M 的命中率不低于 0.67」的前提下选出成本最小的 M。三题标准值 recall@20 = 0.80、首次达到 0.90 的 K = 50、最小 M = 10 且成本 0.0160 元全部命中算掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 620",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "2  个 滑块（K",
+    "M）",
+    "3  个 按钮",
+    "4  个 数字输入框"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "recall@K = 名次不超过 K 的题数 / 100（结果保留两位小数）",
+      "上下文成本 = M × 400 / 1000 × 0.004 元（保留四位小数，容差 ±0.0001 元）",
+      "达标判定用 >=：第 2 题 0.90，第 3 题 0.67；多解时取最小 M"
+    ],
+    "assumptions": [
+      "正确块名次分布为合成数据，随机种子 20261006，总题数 100",
+      "输入价 0.004 元每千 token 为教学用示意价，不代表任何厂商真实报价",
+      "块大小固定 400 token，不随 K 或 M 变化"
+    ],
+    "limitations": [
+      "不模拟重排模型的实际延迟与排序波动",
+      "不计入缓存命中、批处理与并发折扣",
+      "recall@K 只看「名次 ≤ K」，不区分排名的置信度"
+    ]
+  }
+}

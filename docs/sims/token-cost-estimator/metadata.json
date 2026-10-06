@@ -1,0 +1,50 @@
+{
+  "title": "Token 费用估算器",
+  "subject": "AI 大模型应用开发 — Token 计费与上下文预算",
+  "creator": "EdwardChenz",
+  "description": "交互式估算器：拖动中文字符数、英文单词数与输出 tokens，观察输入 token 数与请求费用的变化，并用三道挑战题检验计算能力。价格标注为示意价。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Apply"],
+  "duration": "5-8 分钟",
+  "prerequisites": ["token 与上下文窗口", "教学估算公式"],
+  "learning_objectives": [
+    "学习者将针对中英文混合提示，在给定字符数与输出 token 数条件下，算出输入 token 数与请求总费用，费用误差不超过 ±0.001 元。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "800x445",
+  "responsive": "Width-responsive",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": ["describe() 屏幕阅读器描述", "标签与输入框 aria-label", "键盘可达控件"],
+  "controls": [
+    { "type": "slider", "label": "中文字符数 C", "min": 0, "max": 20000, "step": 100, "default": 1500, "unit": "字符" },
+    { "type": "slider", "label": "英文单词数 W", "min": 0, "max": 5000, "step": 50, "default": 200, "unit": "单词" },
+    { "type": "slider", "label": "输出 tokens O", "min": 0, "max": 8000, "step": 100, "default": 800, "unit": "tokens" },
+    { "type": "button", "label": "开始挑战" },
+    { "type": "button", "label": "检查答案" },
+    { "type": "button", "label": "重来" },
+    { "type": "input", "label": "输入 tokens 答案", "unit": "tokens" },
+    { "type": "input", "label": "总费用答案", "unit": "元" }
+  ],
+  "model": {
+    "type": "数学模型（确定性计算）",
+    "variables": ["C 中文字符数", "W 英文单词数", "O 输出 tokens"],
+    "equations": [
+      "input_tokens = ceil(C/1.5) + ceil(W/0.75)",
+      "cost = input_tokens/1000*0.004 + O/1000*0.012"
+    ],
+    "assumptions": [
+      "价格为教学示意价，不代表任何厂商真实报价",
+      "中英文 token 折算比取 1.5 字符/token 与 0.75 单词/token",
+      "零 token 请求费用为 0.0000"
+    ],
+    "limitations": [
+      "不模拟 tokenizer 的真实 BPE 分词行为",
+      "不计入缓存命中与批处理折扣"
+    ]
+  }
+}

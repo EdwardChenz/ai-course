@@ -1,0 +1,57 @@
+{
+  "title": "灰度发布流量分配对比",
+  "subject": "AI 大模型应用开发 — 灰度发布流量分配对比",
+  "creator": "EdwardChenz",
+  "description": "日均 12000 次请求、有效问答完成率 84% 下，按每档有效样本 ≥ 500、必须经过 50% 档、五个工作日内到达 100% 三条硬约束，逐套评判四套灰度放量方案并选出唯一可执行的一套。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Evaluate"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "灰度阶梯",
+    "有效样本",
+    "有效问答完成率",
+    "硬指标与离线评测的分工"
+  ],
+  "learning_objectives": [
+    "学习者将按三条硬约束评判四套灰度放量的合格性，并选出唯一可执行的一套。四套判定与 Content 表全部一致且最终选择为方案 2 时算掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 595",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "2  个 下拉框（判定项 / 判定值）",
+    "2  个 按钮"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "有效样本 = round(12000 × 比例 × 0.84)",
+      "合格 = 全档样本 ≥ 500 且含 50% 档 且 天数 ≤ 5",
+      "天数 = 各档停留天数之和，等于 5 时算通过"
+    ],
+    "assumptions": [
+      "日均 12000 次请求与有效完成率 84% 为正文设定值",
+      "回滚阈值（错误率与 P95 延迟相对基线上升 50%）与按 user_id 取模固定分流不在本模拟器内实现",
+      "各档有效样本由 Rules 公式算出，不是独立假设值"
+    ],
+    "limitations": [
+      "不模拟灰度期间的错误率与 P95 曲线",
+      "不计算分流哈希冲突带来的样本偏差",
+      "方案天数按各档停留天数求和，不含等待评审的人工耗时"
+    ]
+  }
+}

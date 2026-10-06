@@ -1,0 +1,57 @@
+{
+  "title": "重试退避阶梯",
+  "subject": "AI 大模型应用开发 — 重试退避阶梯",
+  "creator": "EdwardChenz",
+  "description": "六行重试次数，每行只显示 n，学习者先逐行预测哪种策略总等待更短；六行全部选择后揭晓两种策略的总数与交叉点。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Analyze"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "指数退避",
+    "固定间隔",
+    "总等待公式",
+    "熔断器"
+  ],
+  "learning_objectives": [
+    "学习者将对比固定间隔与指数退避在六种重试次数下的总等待，并为每种次数选出等待更短的策略。与 Content 表 Correct 列一致算对，n = 1 打平时选任一策略都算对；单次作答答对 ≥ 5 题为掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 735",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "12  个 策略按钮（6 行 × 2 列）",
+    "2  个 按钮（揭晓全部 / 重来）"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "total_fixed(n) = 2n 秒",
+      "total_exp(n) = 2×(2^n − 1) 秒（n 为 1..6 的整数）",
+      "打平规则：n = 1 时两种策略都算对"
+    ],
+    "assumptions": [
+      "基准延迟 2 秒、两个总等待公式与 n = 3 示例（2 + 4 + 8 = 14）出自正文「错误重试与超时」一节",
+      "延迟常量为教学用示意值（示意延迟）",
+      "模型是确定性的，不含抖动；真实部署需加 ±20% 抖动"
+    ],
+    "limitations": [
+      "不含随机抖动与网络抖动，真实等待会更长且更分散",
+      "不区分可重试错误与不可重试错误",
+      "只比较总等待，不评估成功率提升的收益"
+    ]
+  }
+}

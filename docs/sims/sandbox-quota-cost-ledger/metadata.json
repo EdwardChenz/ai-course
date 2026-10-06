@@ -1,0 +1,56 @@
+{
+  "title": "沙箱配额与超时成本账",
+  "subject": "记忆层与执行沙箱 — Daytona 与 E2B 单次成本与月成本权衡",
+  "creator": "EdwardChenz",
+  "description": "交互式折线图：拖动单次执行时长 T，比较 Daytona 与 E2B 在 2 vCPU 规格下的单次成本，计算差额与降幅，并算出 4,000 次/天、30 天的月成本。单价为教学用示意价。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Evaluate"],
+  "duration": "6-9 分钟",
+  "prerequisites": ["沙箱资源配额的四维上限", "墙钟超时与计费窗口的关系", "单次成本公式"],
+  "learning_objectives": [
+    "学习者将调节单次执行时长并计算 Daytona 与 E2B 在 2 vCPU 规格下的单次成本，在“T 等于 45 秒、日均 4,000 次执行”的场景下选出月成本更低的方案，并指出两条成本线在 5 到 60 秒区间不相交。"
+  ],
+  "framework": "Chart.js",
+  "chart_library_version": "4.4.1",
+  "canvas_dimensions": "宽度自适应；图表区 400px + 控件区 388px",
+  "iframe_height": 790,
+  "responsive": "Width-responsive（window resize 时 chart.resize()）",
+  "dependencies": "Chart.js CDN (4.4.1)",
+  "accessibility": ["canvas role=img 与 aria-label", "滑块 aria-label 与数值读数", "键盘可达控件", "E2B 线用虚线 + 深橙与 Daytona 的实线 + 深蓝双重区分，不只靠颜色"],
+  "controls": [
+    { "type": "slider", "label": "单次执行时长 T", "min": 5, "max": 60, "step": 1, "default": 12, "unit": "秒", "note": "规格块写的是步长 5，但步长 5 的网格（5,10,15,…）不含规格块自己的 12 秒默认与 45 秒题设，因此滑块按 1 秒粒度取值；图表 x 轴仍按 5 秒网格绘制" },
+    { "type": "input", "label": "Q1 Daytona 单次成本（T = 12 秒）", "unit": "元", "tolerance": 0.0001 },
+    { "type": "input", "label": "Q1 E2B 单次成本（T = 12 秒）", "unit": "元", "tolerance": 0.0001 },
+    { "type": "input", "label": "Q2 E2B 比 Daytona 便宜", "unit": "元", "tolerance": 0.0001 },
+    { "type": "input", "label": "Q2 降幅", "unit": "%", "tolerance": 0.1 },
+    { "type": "input", "label": "Q3 Daytona 月成本（T = 45 秒、日均 4,000 次、30 天）", "unit": "元", "tolerance": 0.0001 },
+    { "type": "button", "label": "检查答案" },
+    { "type": "button", "label": "重来" }
+  ],
+  "model": {
+    "type": "算术判定（确定性计算）",
+    "variables": ["单次执行时长 T（5 到 60 秒，步长 5，默认 12）", "创建或启动时间", "每分钟单价"],
+    "equations": [
+      "Daytona 单次成本 = (2.4 + T) / 60 × 0.06 元",
+      "E2B 单次成本 = (1.2 + T) / 60 × 0.04 元",
+      "两线差额 = (0.096 + 0.02T) / 60 元，T ≥ 0 时恒为正，故两线不相交、不存在并列",
+      "降幅 = 差额 ÷ Daytona 单次成本 × 100%",
+      "月成本 = 单次成本 × 日均执行次数 × 30"
+    ],
+    "assumptions": [
+      "2.4 秒与 1.2 秒为示例环境实测的创建与启动时间，0.06 元 / 分钟与 0.04 元 / 分钟为教学用示意单价，非官方报价",
+      "T 落在步长 5 的网格上，默认 12 秒在网格上；T = 60 秒为区间上限",
+      "5,688 元与正文「沙箱资源配额」一节的月成本一致；0.0056 元与 38.9% 与「E2B对照实践」的选型结论一致"
+    ],
+    "limitations": [
+      "两条线都是线性模型，不反映并发、沙箱复用与快照带来的非线性收益",
+      "规格块未提供单价可调控件；差额闭式按固定单价推导，若学习者另行假设单价相同需自行重算",
+      "规格块写滑块步长为 5 秒，但该网格不含规格块自己的 12 秒默认值与 45 秒题设，实现改为 1 秒粒度"
+    ]
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "title": "假设性文档的召回增益",
+  "subject": "AI 大模型应用开发 — 假设性文档的召回增益",
+  "creator": "EdwardChenz",
+  "description": "六道真实查询在「仅用原查询」与「假文档替换原查询」两种做法下的前 20 名命中数对比。增益列在提交前保持空白：先猜哪一道会倒亏，再选出双路融合的工程修法。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Analyze"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "假设性文档检索",
+    "稠密检索",
+    "BM25",
+    "RRF 倒数排名融合",
+    "recall@20"
+  ],
+  "learning_objectives": [
+    "学习者将比较六道查询在两种做法下的前 20 名命中数，并选出唯一出现负增益的查询（序号 5，增益 -5），且能说出「假文档只走稠密路、原查询保留在稀疏路做双路融合」这一修法。序号判定与修法判定两项都满足算掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 675",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "1  个 数字输入框（序号）",
+    "1  个 下拉框（工程修法）",
+    "2  个 按钮（提交判定 / 重来）"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "增益 = 假文档替换后命中数 − 仅原查询命中数",
+      "判定变差：增益 ≤ 0"
+    ],
+    "assumptions": [
+      "六道查询与两组命中数为合成数据，随机种子 20261006",
+      "命中数上限 20，达到上限记为满命中",
+      "假文档生成开销约 200 token / 1.2 秒 / 0.0024 元（示意开销）"
+    ],
+    "limitations": [
+      "不模拟真实 BPE 分词与 HyDE 生成过程",
+      "只有 6 道查询，样本量不足以做统计显著性判断",
+      "规格块正文的合计 86 / 14.3 与数据表逐行求和 96 / 16.0 不一致，本模拟器以数据表为准"
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "title": "Trace 根因定位判定器",
+  "subject": "AI 大模型应用开发 — Trace 根因定位判定器",
+  "creator": "EdwardChenz",
+  "description": "六条失败 trace 的 span 观测值。逐条判定第一个出错环节（检索未召回 / 重排 / 上下文压缩 / 生成没答对），再逐条选出该层对应的首要动作，十二项全部锁定后才揭晓。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Analyze"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "trace 与 span 的父子关系",
+    "gold 块",
+    "召回未召回",
+    "重排",
+    "上下文压缩",
+    "生成没答对"
+  ],
+  "learning_objectives": [
+    "学习者将根据六条失败 trace 的 span 观测值判定每条的第一个出错环节，并说出该层对应的首要动作。六条判定与 Content 表的「应判归因层」列全部一致，且至少四条的首要动作答对时算掌握。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 740",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "2  个 下拉框（判定项 / 判定值）",
+    "2  个 按钮"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "归因顺序：retrieval → rerank_top5 → compressed → generation（顺序短路，单选无并列）",
+      "重排门槛：分数 ≥ 0.44 进入 top5，低于则排除",
+      "上下文压缩预算 1,800 token；序号 6 记录 embed_service_status: timeout"
+    ],
+    "assumptions": [
+      "六条 trace 的 span 字段值、0.44 门槛与 0.31 打分为合成数据，随机种子 20261103",
+      "34 道错题的四层分布 15 / 11 / 3 / 5 出自正文归因结果代码块",
+      "span 数值为示意值，不重跑线上 trace"
+    ],
+    "limitations": [
+      "不解析真实 trace JSON，只呈现预设的 span 观测",
+      "不重放请求，不验证复现率",
+      "判定为单选，无并列，容差为 0 层"
+    ]
+  }
+}

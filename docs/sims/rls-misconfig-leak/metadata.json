@@ -1,0 +1,60 @@
+{
+  "title": "RLS 漏配导致的数据越权",
+  "subject": "AI 大模型应用开发 — RLS 漏配导致的数据越权",
+  "creator": "EdwardChenz",
+  "description": "八张业务表的本租户应有行数与当前配置逐张列出，先猜越权多少行、零行属于哪类故障、补策略但不开启会怎样，三题锁定后揭晓实际可见行数。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": [
+    "Analyze"
+  ],
+  "duration": "6-10 分钟",
+  "prerequisites": [
+    "行级安全策略",
+    "enable row level security",
+    "USING 与 WITH CHECK",
+    "auth.current_tenant_id()",
+    "失败即拒绝"
+  ],
+  "learning_objectives": [
+    "学习者将逐表预测 8 张业务表在当前配置下普通客服能读到的行数，并算出合计泄漏行数。泄漏行数答为 338,000 行、越权表数为 2 张，且能指出 attachments 的 0 行属于失败即拒绝而非越权。"
+  ],
+  "framework": "p5.js",
+  "canvas_dimensions": "width-responsive x 635",
+  "responsive": "Width-responsive（默认 800 像素宽，按 <main> 容器宽度自适应）",
+  "dependencies": "p5.js CDN (2.3.2)",
+  "accessibility": [
+    "describe() 屏幕阅读器描述",
+    "全部控件带 aria-label",
+    "使用 p5 内置控件，键盘可达",
+    "画布文字按字符数换行，避免溢出裁切"
+  ],
+  "controls": [
+    "1  个 下拉框（题号）",
+    "1 组单选（表数 / 故障归类）",
+    "1 到 2  个 数字输入框",
+    "2  个 按钮"
+  ],
+  "model": {
+    "type": "确定性教学模型（公式与阈值判定，不含随机性）",
+    "equations": [
+      "越权泄漏行数 = 实际可见行数 − 本租户应有行数（仅正值求和，零行不计入）",
+      "可见率 = 实际可见行数 ÷ 本租户应有行数",
+      "分类：泄漏 > 0 判越权；实际 < 应有判可用性故障；相等且配置完整判正常"
+    ],
+    "assumptions": [
+      "各表「本租户应有行数」来自表清单按 3 个租户均分得到",
+      "实际可见行数与故障类型为合成数据，随机种子 20261006",
+      "泄漏行数由 Rules 计算得出，不是人工填写；容差 ±1,000 行"
+    ],
+    "limitations": [
+      "不模拟具体 SQL 执行计划与索引影响",
+      "不覆盖 service 角色绕过策略的情形",
+      "只统计行数，不估算泄漏数据的敏感度等级"
+    ]
+  }
+}

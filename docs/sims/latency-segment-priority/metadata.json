@@ -1,0 +1,76 @@
+{
+  "title": "延迟分段瀑布与优化优先级",
+  "subject": "可观测性与评测优化 — 延迟分段分解与优化收益排序",
+  "creator": "EdwardChenz",
+  "description": "交互式瀑布图：九个延迟分段串行累加为端到端 P50，实时显示 P95 与 3.00 秒门禁余量。学习者按可省毫秒数给三个优化动作排收益顺序，并判定三步全做后是否通过门禁。",
+  "date": "2026-10-06",
+  "type": "Interactive Simulation",
+  "format": "text/html",
+  "language": "zh",
+  "rights": "CC BY-NC-SA 4.0",
+  "grade_level": "本科 / 职业培训",
+  "bloom_levels": ["Evaluate"],
+  "duration": "8-12 分钟",
+  "prerequisites": ["端到端延迟的分段分解", "首 token 等待", "逐 token 生成", "提示缓存", "工具并行", "P50 与 P95"],
+  "learning_objectives": [
+    "学习者将调节九个延迟分段的值并观察端到端 P50 的实时变化，在三个候选优化动作中按可省毫秒数排出收益顺序，并在三步全做后判定是否通过 3.00 秒的 P95 门禁。"
+  ],
+  "framework": "Chart.js",
+  "chart_library_version": "4.4.1",
+  "canvas_dimensions": "宽度自适应；图表区 400px + 控件区 551px",
+  "iframe_height": 953,
+  "responsive": "Width-responsive（window resize 时 chart.resize()）",
+  "dependencies": "Chart.js CDN (4.4.1)",
+  "accessibility": ["canvas role=img 与 aria-label", "滑块 aria-label 与数值读数", "键盘可达控件", "九段用 Okabe-Ito 色盲友好色板 + 横轴文字标签双重区分，不只靠颜色"],
+  "controls": [
+    { "type": "slider", "label": "查询改写", "min": 0, "max": 400, "step": 10, "default": 180, "unit": "毫秒" },
+    { "type": "slider", "label": "检索", "min": 20, "max": 300, "step": 5, "default": 70, "unit": "毫秒" },
+    { "type": "slider", "label": "重排", "min": 0, "max": 400, "step": 10, "default": 120, "unit": "毫秒" },
+    { "type": "slider", "label": "上下文压缩", "min": 0, "max": 300, "step": 10, "default": 60, "unit": "毫秒" },
+    { "type": "slider", "label": "首 token 等待", "min": 100, "max": 1500, "step": 10, "default": 620, "unit": "毫秒" },
+    { "type": "slider", "label": "逐 token 生成", "min": 200, "max": 2500, "step": 20, "default": 900, "unit": "毫秒" },
+    { "type": "slider", "label": "工具调用", "min": 0, "max": 1200, "step": 10, "default": 630, "unit": "毫秒" },
+    { "type": "slider", "label": "引用校验", "min": 0, "max": 400, "step": 10, "default": 140, "unit": "毫秒" },
+    { "type": "slider", "label": "落库", "min": 0, "max": 300, "step": 10, "default": 80, "unit": "毫秒" },
+    { "type": "button", "label": "套用 工具调用并行化（630 → 230 毫秒）" },
+    { "type": "button", "label": "套用 首 token 走提示缓存（620 → 390 毫秒）" },
+    { "type": "button", "label": "套用 跳过无指代查询的改写（180 → 0 毫秒）" },
+    { "type": "input", "label": "Q1 首 token 等待 + 逐 token 生成的占比", "unit": "%", "tolerance": 0.1 },
+    { "type": "select", "label": "Q2 收益排序 ①" },
+    { "type": "select", "label": "Q2 收益排序 ②" },
+    { "type": "select", "label": "Q2 收益排序 ③" },
+    { "type": "input", "label": "Q3 三动作全做后的端到端 P50", "unit": "毫秒", "tolerance": 0 },
+    { "type": "select", "label": "Q3 P95 是否通过 3.00 秒门禁" },
+    { "type": "button", "label": "检查答案" },
+    { "type": "button", "label": "恢复默认并重来" }
+  ],
+  "model": {
+    "type": "算术判定（确定性计算）",
+    "variables": ["九个分段当前值", "三个动作的可省毫秒数（固定常数）"],
+    "equations": [
+      "端到端 P50 = 九个分段当前值之和，单位毫秒，实时更新",
+      "百分比 = 两段之和 ÷ 端到端 × 100%，保留一位小数",
+      "可省毫秒数 = 分段默认值 − 该动作目标值（固定常数，不随滑块变化）",
+      "P95 = P50 + 550 毫秒（教学设定：默认 P50 2,800 毫秒、P95 3,350 毫秒）",
+      "门禁判定：P95 ≤ 3,000 毫秒为通过，等于 3,000 毫秒按通过计"
+    ],
+    "data": {
+      "分段默认值": { "查询改写": 180, "检索": 70, "重排": 120, "上下文压缩": 60, "首 token 等待": 620, "逐 token 生成": 900, "工具调用": 630, "引用校验": 140, "落库": 80, "合计": 2800 },
+      "动作可省毫秒数": { "工具调用并行化": 400, "首 token 走提示缓存": 230, "跳过无指代查询的改写": 180 },
+      "首token加逐token生成占比": "54.3%",
+      "工具调用占比": "22.5%",
+      "三步全做后": { "P50": 1990, "P95": 2540, "门禁": 3000, "余量": 460 },
+      "P95门禁": 3000
+    },
+    "assumptions": [
+      "九个分段的默认值与三个动作的目标值出自本章「延迟分段分析」的 P50 分段表与三步优化段落",
+      "P95 同步下移 810 毫秒为教学设定，基于默认 P50 2,800 毫秒与 P95 3,350 毫秒的实测口径",
+      "全部数值构成合成数据集，随机种子 20261103"
+    ],
+    "limitations": [
+      "九个分段假设严格串行，不建模分段之间的并发",
+      "可省毫秒数是固定常数，不随学习者把滑块拖到其他位置而改变",
+      "挑战题答案按默认口径计算，与滑块当前值无关"
+    ]
+  }
+}
