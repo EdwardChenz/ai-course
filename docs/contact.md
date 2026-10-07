@@ -1,7 +1,29 @@
-# Contact
+# 联系方式
 
-Please connect with me on [LinkedIn](https://www.linkedin.com/in/danmccreary/)
+## 作者
 
-I am looking forward to your feedback!
+**EdwardChenz**
 
- - EdwardChenz
+- 电子邮箱：[TK: 作者邮箱]
+- LinkedIn：[TK: 作者本人主页链接]
+- GitHub：[TK: 作者 GitHub 主页]
+
+## 内容反馈
+
+本书仍在修订中，欢迎反馈：
+
+- **内容勘误**：指出正文、代码或 MicroSim 里的错误，尤其是数字不一致或 API 已过时的地方
+- **学习建议**：哪一节读不懂、哪个顺序不合理、哪个实战缺了关键步骤
+- **平台问题**：MicroSim 打不开、公式不渲染、导航点不动
+
+反馈时请注明具体位置（章节号 + 小节标题）与你看到的现象，方便定位。
+
+## 引用本书
+
+内容采用[知识共享 署名-非商业性使用-相同方式共享 4.0](license.md)许可。引用时请注明：
+
+```text
+《高级AI大模型应用开发》，EdwardChenz 著，
+采用 CC BY-NC-SA 4.0 许可，非商业用途。
+在线版本：https://EdwardChenz.github.io/ai-course/
+```

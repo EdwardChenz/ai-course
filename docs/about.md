@@ -1,21 +1,51 @@
-# About
+# 关于本书
 
-从模型接入到Agent落地：RAG/GraphRAG、MCP、多Agent协作、运行时可观测与评测、多模态与企业数据工程的实战型智能教材
+从模型接入到 Agent 落地：RAG/GraphRAG、MCP、多 Agent 协作、运行时可观测与评测、多模态与企业数据工程的实战型智能教材。
 
-## Audience
+## 适合谁读
 
-Describe the intended reader: their background, prerequisites, and what they
-should be able to do after working through the book.
+**适合**：有 Python 后端基础、学过 LangChain 中级用法、准备从"会调 API"转向"能负责一个系统"的开发者。
 
-## How to Use This Book
+**不适合**：想从零学 Python 或只想看理论推导的读者。本书默认你已具备以下前置能力——
 
-- Read chapters in order — concepts are introduced in dependency order.
-- Use the search bar (top right) to jump to a specific term.
-- Try the MicroSims as you encounter them; they are the fastest way to build
-  intuition for a new concept.
-- Check the [Learning Graph](learning-graph/index.md) when you want to see how
-  a concept fits into the larger picture.
+| 前置能力 | 说明 |
+|---|---|
+| Python 工程 | 虚拟环境、包管理、异步编程基础 |
+| Web 后端 | FastAPI 路由、请求校验、服务部署概念 |
+| Linux 与容器 | Shell 常用命令、Docker 镜像与网络、日志排查 |
+| 版本协作 | Git 分支与提交流程 |
+| 模型接入 | 调用过大模型 API，用过基础 RAG 流程 |
+| 数据概念 | 向量检索与 SQL 基础 |
 
-## Author
+缺前置的读者建议先补 [Python 基础](https://docs.python.org/zh-cn/3/tutorial/)、[FastAPI 官方教程](https://fastapi.tiangolo.com/zh/tutorial/)，以及任意一门 LangChain 入门课程。
+
+## 这本书解决什么问题
+
+大模型应用开发的重心已经从"单次调用"转向"可靠系统"：
+
+- 检索不准，是分块的问题还是重排的问题？
+- 工具调用失败，是协议没定义还是约束没写死？
+- 多 Agent 互相推责，日志里到底哪一步坏了？
+- 上线后效果掉了，凭什么判断是检索退化而不是分布漂移？
+
+本书不讲"如何调用 API"，只讲"如何交付"。16 章沿 RAG/GraphRAG、MCP 工具交付、多 Agent 协作、运行时可观测与评测、企业数据工程、多模态与推理部署串成一条业务链，最后收敛成能写进简历的作品集。
+
+## 怎么读
+
+- **按顺序读**。概念按依赖顺序引入，第 5 章不会用到第 9 章才讲的东西。
+- **每章先看概念表**。表里列了本章概念及其重要度（CIS），分数越高说明越多后续内容依赖它。
+- **MicroSim 一定要动手**。35 个模拟器大多带判题，只看不答等于没做。
+- **做完章后题再往下**。160 道题不是装饰，是检验掌握程度的最低成本手段。
+- **卡住了看学习图**。[学习图](learning-graph/index.md)展示概念之间的依赖关系，能帮你判断缺的是哪一块前置知识。
+
+## 关于数字
+
+书中所有价格、延迟、吞吐、显存等数值均为**教学示意值**，不代表任何厂商的真实指标。示例中的 API 版本会随时间变化，涉及具体参数时请以官方文档为准。
+
+每章的 MicroSim 判题标准值与正文数字做过交叉校验：你在正文看到的答案，就是你在模拟器里实际能调出来的结果。
+
+## 作者
 
 EdwardChenz
+
+联系方式见[联系页](contact.md)。

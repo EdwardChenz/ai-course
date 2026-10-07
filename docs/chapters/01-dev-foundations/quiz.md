@@ -15,12 +15,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **A**. 本书统一用 `venv`，理由只有一条：它在标准库里、零额外依赖，CI 镜像里一定有，线上部署不会因为装不上工具而卡住。conda 的代价是体积大、解算慢，适合本地数据分析；uv 虽然快一个数量级，但项目较年轻、部分冷门包支持滞后，除非你要加速，否则用 `uv pip` 平替 `pip` 就够，不需要换掉整个方案。
+??? question "查看答案"
+    正确答案是 **A**。本书统一用 `venv`，理由只有一条：它在标准库里、零额外依赖，CI 镜像里一定有，线上部署不会因为装不上工具而卡住。conda 的代价是体积大、解算慢，适合本地数据分析；uv 虽然快一个数量级，但项目较年轻、部分冷门包支持滞后，除非你要加速，否则用 `uv pip` 平替 `pip` 就够，不需要换掉整个方案。
 
-    **Concept Tested:** Python虚拟环境管理
+    **考查概念：** Python虚拟环境管理
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -35,12 +35,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **C**. 核心纪律是区分构建时和运行时：密钥一旦写进 Dockerfile 的 `ENV`，镜像只要泄露就等于密钥泄露，正确做法是运行时注入。仓库里只保留 `.env.example` 写字段名不写值，且 `.env` 必须进 `.gitignore`。选 B 的后果最严重——密钥进了 git 历史就只能轮换，删提交没有用。
+??? question "查看答案"
+    正确答案是 **C**。核心纪律是区分构建时和运行时：密钥一旦写进 Dockerfile 的 `ENV`，镜像只要泄露就等于密钥泄露，正确做法是运行时注入。仓库里只保留 `.env.example` 写字段名不写值，且 `.env` 必须进 `.gitignore`。选 B 的后果最严重——密钥进了 git 历史就只能轮换，删提交没有用。
 
-    **Concept Tested:** Docker环境变量配置
+    **考查概念：** Docker环境变量配置
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -55,12 +55,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **B**。SSE 每行以 `data:` 开头、以空行分帧，结束帧固定是 `data: [DONE]`，客户端拼到它就收尾。漏发这一帧是最常见的联调故障：客户端不知道流已经结束，会一直转圈等到超时。另外超过 30 秒没有任何输出时要先发注释行心跳（如 `:ping`），否则网关或浏览器会把空闲连接掐掉。
+??? question "查看答案"
+    正确答案是 **B**。SSE 每行以 `data:` 开头、以空行分帧，结束帧固定是 `data: [DONE]`，客户端拼到它就收尾。漏发这一帧是最常见的联调故障：客户端不知道流已经结束，会一直转圈等到超时。另外超过 30 秒没有任何输出时要先发注释行心跳（如 `:ping`），否则网关或浏览器会把空闲连接掐掉。
 
-    **Concept Tested:** HTTP流式传输
+    **考查概念：** HTTP流式传输
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -75,12 +75,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **D**。健康检查回答的是"我能不能接流量"，不是"我的业务对不对"，所以 `/healthz` 只做进程存活、关键依赖连得上这类轻量自检，重检查放在 `/readyz`。上了 K8s 之后要拆成两个探针：`livenessProbe` 打 `/healthz`、`readinessProbe` 打 `/readyz`。把全量测试塞进健康检查是常见错误，会让一次偶发失败直接把实例重启掉。
+??? question "查看答案"
+    正确答案是 **D**。健康检查回答的是"我能不能接流量"，不是"我的业务对不对"，所以 `/healthz` 只做进程存活、关键依赖连得上这类轻量自检，重检查放在 `/readyz`。上了 K8s 之后要拆成两个探针：`livenessProbe` 打 `/healthz`、`readinessProbe` 打 `/readyz`。把全量测试塞进健康检查是常见错误，会让一次偶发失败直接把实例重启掉。
 
-    **Concept Tested:** 服务健康检查
+    **考查概念：** 服务健康检查
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -95,12 +95,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **A**。心智模型是"单窗口政务大厅"：窗口只有一个（单线程），办事员在你等叫号时先接待下一个人——让出 CPU 的是 `await`，不是 `async def`。反过来，凡是"算"出来的慢（大矩阵、embedding、视频编码）都不归事件循环管，那要上 `ProcessPoolExecutor` 绕开 GIL。另有一条自查铁律：被 `await` 的东西必须是协程或 Future，普通函数前面加 `await` 会直接报错。
+??? question "查看答案"
+    正确答案是 **A**。心智模型是"单窗口政务大厅"：窗口只有一个（单线程），办事员在你等叫号时先接待下一个人——让出 CPU 的是 `await`，不是 `async def`。反过来，凡是"算"出来的慢（大矩阵、embedding、视频编码）都不归事件循环管，那要上 `ProcessPoolExecutor` 绕开 GIL。另有一条自查铁律：被 `await` 的东西必须是协程或 Future，普通函数前面加 `await` 会直接报错。
 
-    **Concept Tested:** Python异步编程基础
+    **考查概念：** Python异步编程基础
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -115,12 +115,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **C**。算一笔账就明白：首 token 0.6 秒、全文 2000 tokens 需要 20 秒时，非流式用户干等 20 秒才看到第一个字，流式用户 0.6 秒就能开始阅读。回答越长，差距越大，这就是流式成为聊天刚需的原因。而批量任务没有人在等首字，换成非流式反而少一层流式解析的复杂度，选型依据是场景而不是习惯。
+??? question "查看答案"
+    正确答案是 **C**。算一笔账就明白：首 token 0.6 秒、全文 2000 tokens 需要 20 秒时，非流式用户干等 20 秒才看到第一个字，流式用户 0.6 秒就能开始阅读。回答越长，差距越大，这就是流式成为聊天刚需的原因。而批量任务没有人在等首字，换成非流式反而少一层流式解析的复杂度，选型依据是场景而不是习惯。
 
-    **Concept Tested:** FastAPI流式响应
+    **考查概念：** FastAPI流式响应
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -135,12 +135,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **B**。固定间隔每次等 2 秒，n 次重试总等待 2n 秒；指数退避是 2×(2ⁿ−1) 秒，n=3 时就是 14 秒对 6 秒，看起来用户等得更久。但指数退避保护的是下游服务的恢复时间：n=5 时它让用户等一分钟，所以真正的结论是"重试必须配熔断，而不是加次数"。选 A 是典型的只算用户体验、不算系统存活的误判。
+??? question "查看答案"
+    正确答案是 **B**。固定间隔每次等 2 秒，n 次重试总等待 2n 秒；指数退避是 2×(2ⁿ−1) 秒，n=3 时就是 14 秒对 6 秒，看起来用户等得更久。但指数退避保护的是下游服务的恢复时间：n=5 时它让用户等一分钟，所以真正的结论是"重试必须配熔断，而不是加次数"。选 A 是典型的只算用户体验、不算系统存活的误判。
 
-    **Concept Tested:** 错误重试与超时
+    **考查概念：** 错误重试与超时
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -155,12 +155,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **D**。把重试收进自己的退避器，才能把指数退避、±20% 抖动、幂等键、熔断器四件事配成一套；SDK 内部的重试既看不到也关不干净，超时又得单独分层设置（连接 3 秒、读取 60 秒）。顺带记住封装的另一个目的：`base_url`、`api_key`、`timeout` 全部从环境变量读，切网关或换本地模型时只改一处。
+??? question "查看答案"
+    正确答案是 **D**。把重试收进自己的退避器，才能把指数退避、±20% 抖动、幂等键、熔断器四件事配成一套；SDK 内部的重试既看不到也关不干净，超时又得单独分层设置（连接 3 秒、读取 60 秒）。顺带记住封装的另一个目的：`base_url`、`api_key`、`timeout` 全部从环境变量读，切网关或换本地模型时只改一处。
 
-    **Concept Tested:** 模型API调用封装
+    **考查概念：** 模型API调用封装
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -175,12 +175,12 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **B**。先算输入 tokens：ceil(1500 ÷ 1.5) = 1000。再按示意价计费：输入 1 × 0.004 元 + 输出 0.8 × 0.012 元 = 0.004 + 0.0096 = 0.0136 元。常见误区是只算输入不算输出——输出单价是输入的三倍，长回答才是真正的成本大头，所以每次请求前都要先把 token 账算出来。
+??? question "查看答案"
+    正确答案是 **B**。先算输入 tokens：ceil(1500 ÷ 1.5) = 1000。再按示意价计费：输入 1 × 0.004 元 + 输出 0.8 × 0.012 元 = 0.004 + 0.0096 = 0.0136 元。常见误区是只算输入不算输出——输出单价是输入的三倍，长回答才是真正的成本大头，所以每次请求前都要先把 token 账算出来。
 
-    **Concept Tested:** Token与上下文窗口
+    **考查概念：** Token与上下文窗口
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---
 
@@ -195,11 +195,11 @@
 
 </div>
 
-??? question "Show Answer"
-    The correct answer is **A**。排查顺序应该从"链路哪一段吃掉了流"入手：代理缓冲是流式名存实亡的头号原因，解法是加 `X-Accel-Buffering: no` 或关掉 `proxy_buffering`。先确认首帧是否在服务端及时产生，再逐跳看转发链路。选 B 会白白换模型——换完首字延迟不变，因为瓶颈根本不在模型侧。
+??? question "查看答案"
+    正确答案是 **A**。排查顺序应该从"链路哪一段吃掉了流"入手：代理缓冲是流式名存实亡的头号原因，解法是加 `X-Accel-Buffering: no` 或关掉 `proxy_buffering`。先确认首帧是否在服务端及时产生，再逐跳看转发链路。选 B 会白白换模型——换完首字延迟不变，因为瓶颈根本不在模型侧。
 
-    **Concept Tested:** HTTP流式传输
+    **考查概念：** HTTP流式传输
 
-    **See:** [章节首页](../01-dev-foundations/index.md)
+    **参见：** [章节首页](../01-dev-foundations/index.md)
 
 ---

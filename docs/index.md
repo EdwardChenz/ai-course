@@ -7,34 +7,33 @@ image: img/cover.png
 # 高级AI大模型应用开发
 
 <figure markdown>
-  ![高级AI大模型应用开发 cover](./img/cover.png){ width="100%" }
+  ![高级AI大模型应用开发封面](./img/cover.png){ width="100%" }
 </figure>
 
-从模型接入到Agent落地：RAG/GraphRAG、MCP、多Agent协作、运行时可观测与评测、多模态与企业数据工程的实战型智能教材
+从模型接入到 Agent 落地：RAG/GraphRAG、MCP、多 Agent 协作、运行时可观测与评测、多模态与企业数据工程的实战型智能教材。
 
-## Getting Started
+## 这本书怎么用
 
-This is an intelligent textbook built with MkDocs Material. Use the navigation
-sidebar on the left to explore chapters, the learning graph, MicroSims, and
-supporting reference content.
+左侧导航栏是全书入口。整本书按学习顺序组织，**建议从第 1 章顺读**——每章只会用到前面章节讲过的概念，跳读会踩空。
 
-## Front Matter
+| 入口 | 内容 |
+|---|---|
+| [章节正文](chapters/index.md) | 全书 16 章，每章含正文、章后测验与参考文献 |
+| [学习图](learning-graph/index.md) | 290 个概念与它们之间的依赖关系，看知识点在全书中所处的位置 |
+| [MicroSims](sims/index.md) | 35 个可交互、可作答、可判分的模拟器 |
+| [术语表](glossary.md) | 290 条术语定义，按 ISO 11179 编写 |
+| [常见问题](faq.md) | 36 题全书 FAQ |
 
-- **About** — audience, prerequisites, and how to read the book
-- **Course Description** — the seed document used to generate the learning graph
+## 三个使用建议
 
-## Chapters
+1. **先看概念表再读正文**。每章开头列出了本章覆盖的概念及其重要度（CIS），重要度高的概念是后续章节的地基，值得多花时间。
+2. **MicroSim 要动手点**。它们不是配图，是能答题判分的工具——不动手只看结论，等于跳过了本书一半的设计意图。
+3. **遇到术语查术语表**。同一个词在工程圈有多种叫法，本书在术语表里给出了统一定义，正文一律按那个定义用。
 
-The main body of the book lives under [Chapters](chapters/index.md). Each
-chapter has its own folder with a two-digit prefix (e.g. `01-introduction`).
+## 学习方式
 
-## Learning Graph
+- **系统学**：从第 1 章顺读到第 16 章，每章做完章后题再往下。
+- **按需查**：直接用右上角搜索框搜术语或工具名，跳到对应章节。
+- **做项目**：第 16 章给了两个中大型集成项目的完整验收标准，按那个标准反推需要补哪些章节。
 
-The [Learning Graph](learning-graph/index.md) shows how concepts depend on each
-other. Concepts are introduced in dependency order so prerequisites are always
-covered before they are used.
-
-## MicroSims
-
-Interactive simulations live under [MicroSims](sims/index.md). Each MicroSim
-focuses on one concept and is embeddable as an iframe inside chapter content.
+许可与署名：[知识共享 署名-非商业性使用-相同方式共享 4.0](license.md)。

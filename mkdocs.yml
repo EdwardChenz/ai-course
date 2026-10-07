@@ -21,107 +21,104 @@ hooks:
   - plugins/social_override.py
 
 # Repository
-repo_name: 'GitHub Repo'
+repo_name: 'GitHub 仓库'
 repo_url: 'https://github.com/EdwardChenz/ai-course'
 edit_uri: 'blob/main/docs'
 
 # Copyright
-copyright: 'Copyright &copy; 2026 EdwardChenz. Licensed under <a href="license/">CC BY-NC-SA 4.0</a> for non-commercial use.'
+copyright: '版权所有 &copy; 2026 EdwardChenz · 采用 <a href="license/">CC BY-NC-SA 4.0</a> 许可协议，非商业用途'
 
 # Navigation
 # IMPORTANT: do NOT add `navigation.tabs` — these books use side navigation
 # optimized for wide landscape screens.
 nav:
-  - Home: index.md
-  - About: about.md
-  - Course Description: course-description.md
+  - 首页: index.md
+  - 关于本书: about.md
+  - 课程描述: course-description.md
 
-  - Chapters:
-      - List of Chapters: chapters/index.md
+  - 章节目录:
+      - 全部章节: chapters/index.md
       - 开发基础与工程规范:
-          - Content: chapters/01-dev-foundations/index.md
-          - Quiz: chapters/01-dev-foundations/quiz.md
-          - Annotated References: chapters/01-dev-foundations/references.md
+          - chapters/01-dev-foundations/index.md
+          - 章后测验: chapters/01-dev-foundations/quiz.md
+          - 参考文献: chapters/01-dev-foundations/references.md
       - 模型接入与进阶过渡:
-          - Content: chapters/02-model-access/index.md
-          - Quiz: chapters/02-model-access/quiz.md
-          - Annotated References: chapters/02-model-access/references.md
+          - chapters/02-model-access/index.md
+          - 章后测验: chapters/02-model-access/quiz.md
+          - 参考文献: chapters/02-model-access/references.md
       - RAG 基础：检索与知识库搭建:
-          - Content: chapters/03-rag-basics/index.md
-          - Quiz: chapters/03-rag-basics/quiz.md
-          - Annotated References: chapters/03-rag-basics/references.md
+          - chapters/03-rag-basics/index.md
+          - 章后测验: chapters/03-rag-basics/quiz.md
+          - 参考文献: chapters/03-rag-basics/references.md
       - RAG 进阶：评测运营与上线:
-          - Content: chapters/04-rag-advanced/index.md
-          - Quiz: chapters/04-rag-advanced/quiz.md
-          - Annotated References: chapters/04-rag-advanced/references.md
+          - chapters/04-rag-advanced/index.md
+          - 章后测验: chapters/04-rag-advanced/quiz.md
+          - 参考文献: chapters/04-rag-advanced/references.md
       - GraphRAG 与混合检索架构:
-          - Content: chapters/05-graphrag-hybrid/index.md
-          - Quiz: chapters/05-graphrag-hybrid/quiz.md
-          - Annotated References: chapters/05-graphrag-hybrid/references.md
+          - chapters/05-graphrag-hybrid/index.md
+          - 章后测验: chapters/05-graphrag-hybrid/quiz.md
+          - 参考文献: chapters/05-graphrag-hybrid/references.md
       - MCP 工具交付:
-          - Content: chapters/06-mcp-tools/index.md
-          - Quiz: chapters/06-mcp-tools/quiz.md
-          - Annotated References: chapters/06-mcp-tools/references.md
+          - chapters/06-mcp-tools/index.md
+          - 章后测验: chapters/06-mcp-tools/quiz.md
+          - 参考文献: chapters/06-mcp-tools/references.md
       - 多智能体协作编排:
-          - Content: chapters/07-multi-agent/index.md
-          - Quiz: chapters/07-multi-agent/quiz.md
-          - Annotated References: chapters/07-multi-agent/references.md
+          - chapters/07-multi-agent/index.md
+          - 章后测验: chapters/07-multi-agent/quiz.md
+          - 参考文献: chapters/07-multi-agent/references.md
       - 跨 Agent 协议互联:
-          - Content: chapters/08-cross-agent-protocols/index.md
-          - Quiz: chapters/08-cross-agent-protocols/quiz.md
-          - Annotated References: chapters/08-cross-agent-protocols/references.md
+          - chapters/08-cross-agent-protocols/index.md
+          - 章后测验: chapters/08-cross-agent-protocols/quiz.md
+          - 参考文献: chapters/08-cross-agent-protocols/references.md
       - AI 应用后端集成:
-          - Content: chapters/09-backend-integration/index.md
-          - Quiz: chapters/09-backend-integration/quiz.md
-          - Annotated References: chapters/09-backend-integration/references.md
+          - chapters/09-backend-integration/index.md
+          - 章后测验: chapters/09-backend-integration/quiz.md
+          - 参考文献: chapters/09-backend-integration/references.md
       - 记忆层与执行沙箱:
-          - Content: chapters/10-memory-sandbox/index.md
-          - Quiz: chapters/10-memory-sandbox/quiz.md
-          - Annotated References: chapters/10-memory-sandbox/references.md
+          - chapters/10-memory-sandbox/index.md
+          - 章后测验: chapters/10-memory-sandbox/quiz.md
+          - 参考文献: chapters/10-memory-sandbox/references.md
       - 可观测性与评测优化:
-          - Content: chapters/11-observability-eval/index.md
-          - Quiz: chapters/11-observability-eval/quiz.md
-          - Annotated References: chapters/11-observability-eval/references.md
+          - chapters/11-observability-eval/index.md
+          - 章后测验: chapters/11-observability-eval/quiz.md
+          - 参考文献: chapters/11-observability-eval/references.md
       - 企业数据工程:
-          - Content: chapters/12-data-engineering/index.md
-          - Quiz: chapters/12-data-engineering/quiz.md
-          - Annotated References: chapters/12-data-engineering/references.md
+          - chapters/12-data-engineering/index.md
+          - 章后测验: chapters/12-data-engineering/quiz.md
+          - 参考文献: chapters/12-data-engineering/references.md
       - 多模态应用开发:
-          - Content: chapters/13-multimodal-apps/index.md
-          - Quiz: chapters/13-multimodal-apps/quiz.md
-          - Annotated References: chapters/13-multimodal-apps/references.md
+          - chapters/13-multimodal-apps/index.md
+          - 章后测验: chapters/13-multimodal-apps/quiz.md
+          - 参考文献: chapters/13-multimodal-apps/references.md
       - 推理服务与部署交付:
-          - Content: chapters/14-inference-deploy/index.md
-          - Quiz: chapters/14-inference-deploy/quiz.md
-          - Annotated References: chapters/14-inference-deploy/references.md
+          - chapters/14-inference-deploy/index.md
+          - 章后测验: chapters/14-inference-deploy/quiz.md
+          - 参考文献: chapters/14-inference-deploy/references.md
       - AI 辅助开发工作流:
-          - Content: chapters/15-dev-workflows/index.md
-          - Quiz: chapters/15-dev-workflows/quiz.md
-          - Annotated References: chapters/15-dev-workflows/references.md
+          - chapters/15-dev-workflows/index.md
+          - 章后测验: chapters/15-dev-workflows/quiz.md
+          - 参考文献: chapters/15-dev-workflows/references.md
       - 综合项目与求职准备:
-          - Content: chapters/16-capstone-career/index.md
-          - Quiz: chapters/16-capstone-career/quiz.md
-          - Annotated References: chapters/16-capstone-career/references.md
+          - chapters/16-capstone-career/index.md
+          - 章后测验: chapters/16-capstone-career/quiz.md
+          - 参考文献: chapters/16-capstone-career/references.md
 
-  - Learning Graph:
+  - 学习图:
       - Introduction: learning-graph/index.md
-      - Course Description Assessment: learning-graph/course-description-assessment.md
-      - Concept Enumeration: learning-graph/concept-list.md
-      - Concept Taxonomy: learning-graph/concept-taxonomy.md
-      - Graph Quality Analysis: learning-graph/quality-metrics.md
-      - Taxonomy Distribution: learning-graph/taxonomy-distribution-report.md
-      - Glossary Quality Report: learning-graph/glossary-quality-report.md
-      - Book Metrics: learning-graph/book-metrics.md
-      - Chapter Metrics: learning-graph/chapter-metrics.md
-      - Mascot Test: learning-graph/mascot-test.md
+      - 课程描述评估: learning-graph/course-description-assessment.md
+      - 概念清单: learning-graph/concept-list.md
+      - 概念分类体系: learning-graph/concept-taxonomy.md
+      - 图质量分析: learning-graph/graph-quality-cn.md
+      - 分类分布: learning-graph/taxonomy-distribution-cn.md
+      - 术语质量报告: learning-graph/glossary-quality-report.md
+      - 全书指标: learning-graph/book-metrics-cn.md
+      - 章节指标: learning-graph/chapter-metrics-cn.md
+      - 吉祥物渲染测试: learning-graph/mascot-test-cn.md
       # Interactive viewer (book-installer feature 23) goes here once installed
-      # - Concept Enumeration: learning-graph/concept-list.md
-      # - Concept Taxonomy: learning-graph/concept-taxonomy.md
-      # - Graph Quality Analysis: learning-graph/quality-metrics.md
-      # - Taxonomy Distribution: learning-graph/taxonomy-distribution.md
+      # Interactive viewer (book-installer feature 23) 待安装后启用
 
-  - MicroSims:
-      - List of MicroSims: sims/index.md
+  - MicroSim 交互模拟器:
+      - MicroSim 一览: sims/index.md
       # --- 第 1 章：开发基础与工程规范 ---
       - 重试退避阶梯: sims/retry-backoff-ladder/index.md
       - Token 费用估算器: sims/token-cost-estimator/index.md
@@ -174,14 +171,15 @@ nav:
       # --- 第 16 章：综合项目与求职准备 ---
       - STAR 讲述稿评分卡: sims/star-narrative-scorecard/index.md
 
-  - Glossary: glossary.md
-  - FAQ: faq.md
-  - License: license.md
-  - Contact: contact.md
+  - 术语表: glossary.md
+  - 常见问题: faq.md
+  - 许可协议: license.md
+  - 联系方式: contact.md
 
 # Theme configuration
 theme:
   name: material
+  language: zh
   # Once a logo is generated, point this at docs/img/logo.png or a mascot pose:
   # logo: img/logo.png
   # favicon: img/favicon.ico
@@ -271,6 +269,13 @@ exclude_docs: |
   BUILDING-SIMS.md
   # social/ 是宣传物料（LinkedIn 帖、新闻稿），不对读者展示
   social/
+  # 以下 5 份是上游脚本自动生成的英文报告原稿。仓库保留它们作为中文译版的对照
+  # 与再生成依据，但不发布到网站。
+  learning-graph/quality-metrics.md
+  learning-graph/taxonomy-distribution-report.md
+  learning-graph/book-metrics.md
+  learning-graph/chapter-metrics.md
+  learning-graph/mascot-test.md
 
 # Rebuild on changes during `mkdocs serve`
 watch:

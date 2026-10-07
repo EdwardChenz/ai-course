@@ -1,22 +1,24 @@
 ---
-title: Course Description for 高级AI大模型应用开发
-description: A detailed course description for 高级AI大模型应用开发 including overview, topics covered and learning objectives in the format of the 2001 Bloom Taxonomy
+title: 高级AI大模型应用开发 · 课程描述
+description: 高级AI大模型应用开发课程的完整课程描述，包含概览、覆盖主题，以及按 2001 版 Bloom 分类法组织的学习目标
 quality_score: 97
 ---
 
-# Course Description
+> **章节对照**：本页小节名已中文化，对应 `course-description-analyzer` 模板的规范英文契约名——课程标题 Title、目标读者 Audience、先修要求 Prerequisites、覆盖主题 Topics / Main Topics Covered、明确不覆盖的主题 Topics Not Covered、课程概览 Course Overview、学习目标 Learning Outcomes。
 
-## Title
+# 课程描述
+
+## 课程标题
 
 高级AI大模型应用开发（课程大纲 v261002）
 
-## Audience
+## 目标读者
 
 面向具备 Python 后端基础、已完成 LangChain 系列中级课程的开发者与求职者，包括成人继续教育与职业转型学员。读者应能独立写 Python3、调用大模型 API、完成基础的 RAG Demo，本书带读者从“能调模型”走到“能交付可靠 Agent 系统”。
 
 基础/中级部分（Python3+、FastAPI、Linux Shell、Docker、Git、模型接入与 LangChain 中级用法）由线下教学加固与前期教学视频覆盖，本书聚焦高级应用开发与业务集成，不重复讲解零基础语法。
 
-## Prerequisites
+## 先修要求
 
 - Python3+ 开发能力：虚拟环境、包管理、异步编程基础
 - FastAPI 基础：路由、请求校验、服务端部署概念
@@ -26,7 +28,7 @@ quality_score: 97
 - 模型接入与 LangChain 系列中级课程：Prompt、Chain、基础 RAG 流程
 - 向量检索与数据库基础概念：Embedding、TopK、SQL 基础
 
-## Topics
+## 覆盖主题
 
 本书共 8 大模块，对应课程大纲 v261002 的全部主干：
 
@@ -48,7 +50,7 @@ quality_score: 97
 
 其中 Daytona、LangFuse、DeepEval、Temporal 为课程打标优先讲解的工具链，本书给予更深的实战篇幅。
 
-## Topics Not Covered
+## 明确不覆盖的主题
 
 为控制范围，以下内容明确不纳入本书：
 
@@ -58,13 +60,13 @@ quality_score: 97
 - LangChain 中级课程已覆盖的基础 Chain 与基础 RAG 用法（仅做衔接回顾）
 - 特定云厂商的计费与合规审计细节（仅在部署章节给出通用 checklist）
 
-## Course Overview
+## 课程概览
 
 大模型应用开发的重心已经从“单次调用”转向“可靠系统”：检索要混合、工具要规范、Agent 要协作、运行要可观测、评测要闭环、数据要可编排。本课程以可落地的 Agent 系统为主线，把 RAG/GraphRAG、MCP 工具交付、A2A Agent 互联、记忆与沙箱、可观测与评测、调度与数据湖、多模态生成、推理网关全部串成一条业务链，并以小实战 + 中大型集成项目收敛到求职作品集。
 
 学完本书，读者应能独立设计并交付一个带知识库、多 Agent 分工、可观测可评测、后端落库的 Agent 应用，而不是停留在 Notebook 级别的 Demo。
 
-## Learning Outcomes
+## 学习目标
 
 学完本课程，学生将能够：
 

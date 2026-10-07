@@ -1,9 +1,9 @@
-# Chapters
+# 章节目录
 
 本书共 16 章，覆盖学习图中的全部 290 个概念。章节顺序尊重概念依赖关系：
 后一章只会用到本章或之前章节讲过的概念，请按顺序学习。
 
-## Chapter Overview
+## 章节一览
 
 1. [开发基础与工程规范](01-dev-foundations/index.md) - 本章夯实 AI 应用的工程地基：Python 异步、FastAPI 服务、Linux 排查、Docker 与 Git 协作，以及模型调用基本功，为全书提供零依赖起点。
 2. [模型接入与进阶过渡](02-model-access/index.md) - 本章完成从 LangChain 中级到高级的过渡：链式编排、文档切分、向量库操作、工具绑定与代理循环，把能调模型升级为能建系统。
@@ -22,11 +22,13 @@
 15. [AI 辅助开发工作流](15-dev-workflows/index.md) - 本章把 Agent 用回研发本身：ORCA 开发范式、Superpowers 等 Skill 实践、飞书与 Office CLI 提效，沉淀个人与团队工具链。
 16. [综合项目与求职准备](16-capstone-career/index.md) - 本章收敛全书：两个中大型集成项目的验收标准、复盘文档与作品集讲述稿，以及面试宝典与求职全流程准备。
 
-## How to Use This Textbook
+## 使用方法
 
 每章首页列出本章覆盖的概念及其 Concept Impact Score（CIS）：CIS 越高的概念是越多后续内容的地基，值得花更多时间；
-每章的 Prerequisites 说明学前应完成的章节。建议先通读一章的概念表，再进入正文；正文由 `chapter-content-generator` 填充。
+每章的「Prerequisites」段说明学前应完成的章节。建议先通读一章的概念表，再进入正文。
+
+每章另有「Quiz」（章后测验）与「Annotated References」（带注释的参考文献）两个子页，从左侧导航栏进入。
 
 ---
 
-**Note:** Each chapter includes a list of concepts covered. Make sure to complete prerequisites before moving to advanced chapters.
+**注意：** 每章都有一份「本章覆盖概念」清单。开始学习某章前，请先确认该章的「Prerequisites」段里要求的学前章节已完成。
