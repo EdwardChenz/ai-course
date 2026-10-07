@@ -1,3 +1,47 @@
+/* ---- 站点布局：加宽正文栏 ----
+   Material 9.x 把 .md-grid 的 max-width 写死成 61rem。实测在 1600px
+   视口下正文栏只有 757px（占视口 47%），而本书定位是宽屏横向阅读——
+   单章最多 29 张表格、23 段代码，外加 35 个 canvas MicroSim，757px
+   明显不够。调到 82rem 后 1600px 视口下正文栏为 1000px（占 62%）。
+   注意 Material 在更宽的断点（>=1440px 左右）用自己的规则接管，此时
+   正文栏会到 1220px 上下，约 68 个汉字一行——对宽表格友好，长段落
+   读起来略宽，属可接受的取舍。侧栏是 fixed 12.1rem，不受此规则影响。 */
+.md-grid {
+  max-width: 82rem;
+}
+
+/* 中文正文字体栈。Material 默认只给 Roboto + 通用 sans，中文全靠系统兜底，
+   换机器/换系统字形与行高会跳变。优先用系统自带的中文黑体（零网络开销），
+   再退回各平台标准中文族。代码/公式不走这条栈，仍由 --md-code-font-family 管。 */
+:root {
+  --md-text-font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑",
+    "Noto Sans CJK SC", "Source Han Sans SC", "WenQuanYi Micro Hei",
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 中文正文行高比西文更需要呼吸感；1.6 在中文密排下偏挤。
+   Material 默认按 1.6 计算，这里按字号给绝对值，避免被继承覆盖。 */
+.md-typeset {
+  font-size: 0.82rem;
+  line-height: 1.75;
+}
+
+/* 中文没有词间空格，靠字间距补偿过紧；0.01em 足够，别多。 */
+.md-typeset p,
+.md-typeset li {
+  letter-spacing: 0.01em;
+}
+
+/* 中文标题不需要西文那种紧字距，正文级标题给一点字重差即可 */
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+  letter-spacing: 0;
+}
+
+/* ---- Logo ---- */
 .md-header__button.md-logo {
     margin: 0;
     padding: 0;
@@ -6,11 +50,16 @@
     height: 60px;
     width: 60px;
     object-fit: contain;
-    background-color: #aaaaaa;
     border-radius: 50%;
     padding: 4px;
     box-sizing: border-box;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+/* 原规则给 logo 图加了 background-color: #aaaaaa 的灰底方块，那是给
+   Material 占位图标准备的。换成真实的墨墨头像后必须去掉，否则头像
+   外面会套一圈灰底。 */
+.md-header__button.md-logo img {
+    background-color: transparent;
 }
 
 /* Container to control the iframe size and scaling */
@@ -20,10 +69,22 @@
     overflow: hidden;
   }
 
-  /* Iframe styles */
+  /* Iframe 样式。
+     原来是 `border: solid 2px blue`，纯蓝硬编码：既刺眼，又不跟随
+     深浅色主题（切到 slate 后仍是亮蓝）。改用主题中性色，hover 时加深。
+     用 currentColor 会跟着标题颜色跑，这里显式给两套，避免暗色下看不清。 */
   iframe {
     width: 100%;
-    border: solid 2px blue;
+    border: solid 1px var(--md-default-fg-color--lightest);
+    border-radius: 4px;
+  }
+
+  [data-md-color-scheme="slate"] iframe {
+    border-color: var(--md-default-fg-color--lighter);
+  }
+
+  .iframe-container iframe:hover {
+    border-color: var(--md-accent-fg-color--transparent);
   }
 
   /* if a div with <div class="upper-alpha"> wraps a list, then number A.B.C.D etc */

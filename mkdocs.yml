@@ -180,12 +180,31 @@ nav:
 theme:
   name: material
   language: zh
-  # Once a logo is generated, point this at docs/img/logo.png or a mascot pose:
-  # logo: img/logo.png
-  # favicon: img/favicon.ico
+  # 墨墨头像（由 docs/img/mascot/neutral.png 裁头部缩放而来）
+  logo: img/logo.png
+  favicon: img/favicon.png
   palette:
-    primary: 'indigo'
-    accent: 'orange'
+    # 第一段是"跟随系统"，Material 靠它把 auto 模式还原成实际的
+    # light/dark 取值。少了这一段，用户手动切过之后就没有办法回到
+    # 跟随系统了。详见 Material 文档 Color scheme 一节。
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: 跟随系统
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-night
+        name: 切换到深色模式
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: orange
+      toggle:
+        icon: material/weather-sunny
+        name: 切换到浅色模式
   include_sidebar: true
   features:
     - content.code.copy
