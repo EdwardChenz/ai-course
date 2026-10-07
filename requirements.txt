@@ -1,0 +1,25 @@
+# 本教材的站点构建与本地预览依赖
+#
+# 安装：
+#   "C:\Users\Chen\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -r requirements.txt
+#
+# 注意：本机的 python / python3 指向 Microsoft Store 的 WindowsApps 桩，
+# 没有装 mkdocs，直接敲 `python -m mkdocs` 会报 No module named mkdocs。
+# 请用上面的 Python 3.11 绝对路径，或先把该解释器设为默认。
+
+# MkDocs 站点生成器
+mkdocs==1.6.1
+
+# Material 主题与配色方案
+mkdocs-material==9.7.7
+
+# markdown_extensions 里用到的 pymdownx 系列扩展
+# superfilters / details / highlight / inlinehilite / snippets /
+# tasklist / arithmatex 全部来自这个包，缺任何一个都会导致构建失败
+pymdown-extensions==12.1
+
+# 代码高亮，由 mkdocs-material 间接依赖，此处显式锁定版本保证可复现
+Pygments==2.21.0
+
+# Material 主题的扩展包（mkdocs-material-extensions 清单内的绘图/嵌入支持）
+mkdocs-material-extensions==1.3.1

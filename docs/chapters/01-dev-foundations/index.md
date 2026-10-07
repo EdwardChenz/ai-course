@@ -458,7 +458,7 @@ Token 是模型计费和截断的基本单位，中文大约 1.5 个字符折 1 
 | 滑动窗口加摘要 | 旧轮次压缩成一段摘要再拼回去 | 要多一次模型调用，摘要可能失真 |
 | 检索回填 | 历史存向量库，需要时按相关性取回 | 架构最重，效果最好（第三章展开） |
 
-#### 图：Token 成本估算器
+#### Diagram: Token 成本估算器
 
 <iframe src="../../sims/token-cost-estimator/main.html" height="482px" width="100%" scrolling="no"></iframe>
 

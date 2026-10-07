@@ -4,6 +4,8 @@
 
 [![build](https://img.shields.io/badge/build-mkdocs--strict-blue)](mkdocs.yml)
 [![license](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-lightgrey)](docs/license.md)
+[![chapters](https://img.shields.io/badge/chapters-16-informational)](docs/chapters/index.md)
+[![microsims](https://img.shields.io/badge/MicroSims-35-success)](docs/sims/index.md)
 
 ## 这本书讲什么
 
@@ -14,22 +16,27 @@ MCP、多 Agent 协作、运行时可观测与评测、多模态与企业数据�
 
 ## 规模
 
+数字取自 `docs/learning-graph/book-metrics.json`（由 Book Metrics v0.09 于 2026-10-07 生成），
+可用 `bk-generate-book-metrics` 重新生成核对。
+
 | 指标 | 数值 |
 |---|---|
 | 概念 | **290**（学习图 DAG，零环） |
 | 章节 | **16** |
-| 正文 | **约 8.1 万字**（约 351 等效页） |
+| 正文 | **81,857 字**（约 353 等效页） |
 | 交互式 MicroSim | **35 个**（全部可点击、可作答、可判分） |
-| 术语库 | **290 条**（ISO 11179，平均 98.5/100） |
+| 术语库 | **290 条**（ISO 11179） |
 | 章后测验 | **160 题**（16 章 × 10 题，Bloom 分层） |
 | 全书 FAQ | **36 题** |
-| 参考文献 | **16 份 / 153 个已验证链接** |
-| 公式 | 59 处 |
+| 参考文献 | **16 份**（含 168 个外链） |
+| 公式 | **59 处** |
 | 学习吉祥物 | 墨墨（章鱼），7 个姿态 |
 
 ## 章节一览
 
-| # | 章节 | 概念 | 交互元素 |
+概念数取自每章的"本章覆盖概念"表，MicroSim 数取自该章正文的 iframe 引用。
+
+| # | 章节 | 概念 | MicroSim |
 |---|---|---|---|
 | 1 | 开发基础与工程规范 | 24 | 2 |
 | 2 | 模型接入与进阶过渡 | 18 | 1 |
@@ -47,13 +54,26 @@ MCP、多 Agent 协作、运行时可观测与评测、多模态与企业数据�
 | 14 | 推理服务与部署交付 | 16 | 2 |
 | 15 | AI 辅助开发工作流 | 9 | 1 |
 | 16 | 综合项目与求职准备 | 10 | 1 |
+| | **合计** | **290** | **35** |
 
 ## 本地预览
 
+⚠️ 本机的 `python` 与 `python3` 指向 Microsoft Store 的 WindowsApps 桩，
+没有安装 mkdocs。请用 Python 3.11 的绝对路径：
+
 ```bash
-pip install -r requirements.lock
-mkdocs serve
-# 浏览 http://127.0.0.1:8000/ai-course/
+"C:\Users\Chen\AppData\Local\Programs\Python\Python311\python.exe" -m pip install -r requirements.txt
+"C:\Users\Chen\AppData\Local\Programs\Python\Python311\python.exe" -m mkdocs serve
+```
+
+然后打开 **http://127.0.0.1:8000/ai-course/** —— `/ai-course/` 这一段来自 `mkdocs.yml`
+的 `site_url`，不是笔误。
+
+编辑 `docs/` 下的文件会自动重建并刷新浏览器。若提示 8000 端口被占用，
+说明已经有一个 `mkdocs serve` 在跑，直接用那个窗口，或换一个端口：
+
+```bash
+"C:\Users\Chen\AppData\Local\Programs\Python\Python311\python.exe" -m mkdocs serve -a 127.0.0.1:8080
 ```
 
 ## 项目结构
@@ -61,6 +81,7 @@ mkdocs serve
 ```
 ai-course/
 ├── mkdocs.yml                 站点配置与导航（单一事实源）
+├── requirements.txt           站点构建依赖
 ├── AGENTS.md / CLAUDE.md      AI agent 规则（CLAUDE.md 仅含 @AGENTS.md）
 ├── CONTENT-GENERATION-GUIDE.md 内容生成规范（字数预算、反填充、MicroSim、吉祥物）
 ├── opencode.json              opencode 的 skills 加载配置
@@ -76,18 +97,38 @@ ai-course/
 └── plugins/social_override.py og:/twitter: 社交卡片钩子
 ```
 
+`site/` 是构建产物，已在 `.gitignore` 中，不会提交。
+
+### 两处约定
+
+- **机器契约标记保留英文。** `#### Diagram:`（图表标题前缀）与 `??? question`（折叠题型）
+  是脚本按前缀匹配的标记，翻译会导致指标统计归零。章节内容里的章节锚点、判据、反馈等
+  标签已全部中文化。
+- **学习图报告有中英两版。** `*-cn.md` 是发布到网站的中文版；同目录下的英文原稿由
+  `bk-generate-book-metrics` 等脚本生成，保留作对照与再生成依据，已在
+  `mkdocs.yml` 的 `exclude_docs` 中排除，不发布。
+
 ## 构建产物校验
 
 ```bash
-mkdocs build --strict          # 必须退出 0
+# 必须退出 0
+"C:\Users\Chen\AppData\Local\Programs\Python\Python311\python.exe" -m mkdocs build --strict
+
+# 吉祥物规则校验（BK_HOME 指向 ibook-skills 仓库）
 python "$BK_HOME/skills/book-installer/scripts/validate-chapter-mascots.py" docs/chapters/01-dev-foundations/index.md
 ```
 
-## 已知的待裁决项
+## 已定夺的内容矛盾
 
-- 第 11 章"34 道错题里 29 道属检索与重排"与分项求和（15+11=26）不符
-- 盈亏平衡调用量在第 14 章为 27,300 次、第 16 章为 27,313 次
-- 6 处 MicroSim 规格块内部数据矛盾（已在 sim 界面按公式口径实现并标注）
+开发过程中发现并已修完的 8 处数据矛盾，正文、章后测验与 MicroSim 三处已同步：
+
+| 位置 | 矛盾 | 定夺结果 |
+|---|---|---|
+| 第 3、6、14 章 | HyDE 召回增益两个口径 | 统一为 76% → 96%，12.7 → 16.0 |
+| 第 14、16 章 | 自建/API 盈亏平衡调用量 | 统一为日均 27,313 次 |
+| 第 12 章 | 批处理第 4 题批处理量倒挂 | 统一为 2.56 QPS，并修正该题概念错误 |
+| 第 7 章 | 任务状态时间线重复扣费 | 统一为 4.5 分（3 次 × 1.5 分） |
+| 第 11 章 | "34 道错题里 29 道"与分项求和 15+11 不符 | 改写为 15+11+3=29，三层归因自洽 |
 
 ## 致谢与许可
 
@@ -104,15 +145,15 @@ python "$BK_HOME/skills/book-installer/scripts/validate-chapter-mascots.py" docs
 |---|---|---|
 | GitHub README | 本文件 | ✅ 已完成 |
 | LinkedIn 发布帖 | `docs/social/linkedin-post.md` | 需补 UTM 与配图 |
-| AP 风格新闻稿 | `docs/social/press-release.md` | **需作者填写 `[TK]` 占位并核定引语** |
+| AP 风格新闻稿 | `docs/social/press-release.md` | **需作者填写 6 处 `[TK]` 占位并核定引语** |
 
 两份物料的数字均取自 `docs/learning-graph/book-metrics.json`，未做四舍五入或夸大；
 不含销量、学员数、媒体转载或读者好评等未经证实的数据。
 
 ## 待作者处理
 
-1. **封面图**：`docs/img/cover.png` 仍是脚手架自带的通用占位封面，需用
-   `docs/img/cover-image-prompt.md` 的提示词生成正式封面替换。
-2. **新闻稿占位符**：数据行城市、媒体邮箱与电话、两处 `[DRAFT QUOTE]` 引语核定。
-3. **MicroSim 规格备注**：`sandbox-quota-cost-ledger` 与 `task-handoff-state-timeline`
-   各有一条备注说明规格曾存在算术歧义、已按公式口径定夺，发布前可考虑删除。
+1. **联系页占位**：`docs/contact.md` 有 3 处 `[TK]` —— 作者邮箱、LinkedIn 主页、GitHub 主页。
+2. **新闻稿占位**：`docs/social/press-release.md` 有 6 处 `[TK]` —— 数据行城市、
+   媒体邮箱与电话、两处 `[DRAFT QUOTE]` 引语核定。
+3. **MicroSim 状态**：`docs/sims/*/index.md` 的 frontmatter `status` 现为 `built`，
+   作者逐个操作验证后可改为 `approved`（导航栏圆点会变绿）。
